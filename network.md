@@ -1928,6 +1928,175 @@ RFC 5789, section 2: Patch method: 描述了PATCH方法
 
 #### 请求头字段（**Request Header Fields**）
 
+| 头字段名          | 说明                                                         | 示例                                                         |
+| ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| user-agent        | 浏览器的身份标识字符串，其中还标识了当前操作系统：一些网站会根据这个标识来返回定制的页面，比如下载Windows(64)/.. | https://blog.csdn.net/QcloudCommunity/article/details/142205140Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 |
+| Host              | 服务器的域名、端口号                                         | Host: eva2.csdn.net                                          |
+| Date              | 发送该消息的日期和时间                                       | Date: Sat, 01 Mar 2025 11:07:07 GMT                          |
+| Referer           | 标识浏览器所访问的前一个页面，正是前一个页面的某个链接将浏览器带到了当前这个页面。可以防盗链 | Referer: https://blog.csdn.net/QcloudCommunity/article/details/142205140 |
+| Content-Type      | 请求体的类型，因为GET请求没有请求体，POST请求才有请求体      | Content-Type: multipart/form-data                            |
+| Content-Length    | 请求体的长度（字节为单位），POST请求才有请求头               | Content-Length: 38                                           |
+| Accept            | 能够接受的响应内容类型（Content-Types）                      | Accept: text/plain                                           |
+| Accept-Charset    | 能够接受的字符集                                             | Accept-Charaset: utf-8                                       |
+| Accept-Encoding   | 能够接收的编码方式列表                                       | Accept-Encoding: gzip, deflate                               |
+| Accept-Language   | 能够接受的响应内容的自然语言列表                             | Accept-Language: en-US                                       |
+| Range             | 仅请求某个实体的一部分。字节偏移以0开始                      | Range: bytes=500-000                                         |
+| Origin            | 发起一个针对跨域资源共享的请求                               | Origin: https://www.baidu.com                                |
+| **Cookie**        | 之前由服务器通过Set-Cookie发送的Cookie                       | Cookie: $Version=1; Skin=new;                                |
+| Connection        | 该浏览器想要优先使用的链接类型                               | Connection: keep-alive                                       |
+| **Cache-Control** | 用来指定在这次的请求/响应链中的所有缓存机制都必须遵守的指令  | Cache-Control: no-cache                                      |
+
+- Referer请求头字段可以**防盗链**：如果服务器中的某个资源，不想让外部用户随意访问，只能来自本公司的网站连接才能访问。那么就可以用这个Referer请求头字段来判断。如果该字段的URL不是本公司的网站链接，那么就拒绝这个访问请求。
+
+- q代表**权重**：q 值越大，表示优先级越高，如果不指定q值，默认是1.0（1.0是最大值）
+
+  ![image-20250305154252981](images/image-20250305154252981.png)
+
+- Range：**可以用在多线程断点下载**
+
+  充分利用CPU的多核：开4个线程，每个线程都发一个HTTP请求，根据Range请求头字段分别下载资源的某一部分。断点：如果突然断网，客户端会记录线程1下载到哪里了，线程2下载的哪里了...；当网络恢复时，就可以从断点继续下载。
+
+- Connection：keep-alive，如果是keep-alive，代表是一个长连接。返回响应后，不要立马关闭。
+
+- Content-Type：通知服务器请求体的类型，GET请求没有请求请求体，POST请求有请求体。
+
+  - application/x-www-form-urlencoded：默认的Content-Type类型，表示用&分隔请求体中的参数，用=分隔键和值，字符用URL编码方式进行编码。
+
+    ```java
+    <form action="/hello/form" method="post" enctype="application/x-www-form-urlencoded">
+    </form>
+    ```
+
+    ![image-20250305155635063](images/image-20250305155635063.png)
+
+  - multipart/form-data：
+
+    可以在提交表单时，设置该请求头：multipart/form-data，文件上传时请求体必须使用这种的编码方式。
+
+    ```java
+    <form action="/hello/form" method="post" enctype="multipart/form-data">
+    </form>
+    ```
+
+    ![image-20250305160322148](images/image-20250305160322148.png)
+
+    ```java
+    //只能取出来用&隔开的请求体中的参数，比如，application/x-www-form-urlencoded这种Content-Type编码的参数数据，或者GET请求中URL的参数。
+    //multipart/form-data这种编码取不出来
+    String name = req.getParameter("name");
+    String age = req.getParameter("age");
+    String photo = req.getParameter("photo");
+    
+    //结果
+    null
+    null
+    null
+    ```
+
+#### 响应头字段（Response Header Fields）
+
+| 头字段名                        | 说明                                                         | 示例                                                 |
+| ------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| Date                            | 发送消息的日期和时间                                         | Date: Wed, 05 Mar 2025 08:14:13 GMT                  |
+| Last-Modified                   | 所请求的对象的最后修改日期                                   | Last-Modified：Wed, 05 Mar 2025 08:14:13 GMT         |
+| Server                          | 服务器的名字                                                 | Server：Apache/2.4.1（Unix）                         |
+| Expires                         | 指定一个时间，超过该时间则认为此响应已经过期                 | Expires：Thu，01 Dec 1994 16:00:00 GMT               |
+| Content-Type                    | 响应体类型                                                   | Content-Type：application/json                       |
+| Content-Encoding                | 内容所使用的编码类型                                         | Content-Encoding：gzip                               |
+| Content-Length                  | 响应体的长度（字节为单位）                                   | Content-Length：348                                  |
+| Content-Disposition             | 一个可以让客户端下载文件并建议文件名的头部                   | Content-Disposition：attachment;filename="fname.ext" |
+| Accept-Ranges                   | 服务器支持哪些种类的部分内容范围                             | Accept-Ranges：bytes                                 |
+| Content-Range                   | 这条部分信息是属于完整消息的拿部分                           | Content-Range：bytes 21010-47021/47022               |
+| **Access-control-allow-origin** | 指定哪些网站可参与到跨来源资源共享过程中                     | Access-control-allow-origin：*                       |
+| Location                        | 用来进行重定向，或者在创建了某个新资源时使用                 | Location：http://ww.w3.org                           |
+| **Set-Cookie**                  | 返回一个Cookie让客户端去保存                                 | Set-Cookie：UserID=JohnDoe；Max-Age=3600；Version=1  |
+| Connection                      | 针对该连接所预期的选项                                       | Connection：close                                    |
+| **Cache-Control**               | 向从服务器知道客户端在内的所有缓存机制告知，他们呢是否可以缓存这个对象。单位为秒 | Cache-Control：max-age=3600                          |
+
+- Content-Type：相当于告诉客户端，我返回给你的是一个HTML页面，且字符串使用ISO-8859-1编码的（所以客户端会用这个字符集解码：显然会乱码）
+
+  ![image-20250305162427460](images/image-20250305162427460.png)
+
+  相当于告诉客户端：我返回给你的是一个普通文本，那么里面的HTML语法不会被浏览器解析
+
+  ```html
+  response.setHeader("Content-Type", "text/plain; charset=ISO-8859-1");
+  ```
+
+  ![image-20250305162549618](images/image-20250305162549618.png)
+
+- Content-Disposition：
+
+  ```java
+  @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       response.setContentType("text/plain; charset=UTF8");
+       response.setHeader("Content-Disposition", "attachment; filename=\"mj.txt\"");
+       response.getWriter().write("这是我的文件数据");
+   }
+  ```
+
+  ![image-20250305162640082](images/image-20250305162640082.png)
+
+#### 状态码（Status Code）
+
+在RFC 2616 10.Status Code Definitions规范中定义状态码指示HTTP请求会否已成功完成
+
+状态码可以分为5类
+
+- 信息响应：100~199
+- 成功响应：200~299
+- 重定向：300~399
+- 客户端错误：400~499
+- 服务器错误：500~599
+
+##### 常见状态码
+
+1. **100 Continue**
+
+   情景：客户端给服务器发送的HTTP请求报文中，包含URL，请求头，请求体。服务器接收到这个报文后，仅仅通过判断URL，请求头就发现这个请求不合法，拒绝。即没有判断请求体中的内容，就拒绝了这个HTTP请求，那么发送的报文中的请求体（请求体可能很大）就是多余的，效率低下的。那么客户端为了提高效率，可以先发送的请求中只有URL，请求头。服务器收到后，如果拒绝了这个请求后，那么客户端这次没有发送请求体，即提高了效率。如果服务器通过判断URL和请求头愿意接收该请求，会发现这个请求缺少一个请求体，那么就会在响应报文中添加一个状态码100 Continue，让客户端将这次请求的请求体也发过来。
+
+   概述：在某些情况下，如果服务器在不看请求体就拒绝请求时，客户端就发送请求体是不恰当的或低效的。允许客户端发送带请求体的请求前，看看服务器是否愿意接收请求（服务器通过请求体判断）。请求的初始部分已经被服务器收到，并且没有被服务器拒绝，服务器会响应给客户端状态码100 Continue。客户端应该继续发送剩余的请求，如果请求已经完成，就忽略这个响应。
+
+2. **200 OK：请求成功**
+
+3. **302 Found**：请求的资源被暂时的移动到了由Location头部指定的URL上
+
+   重定向：① 首先发送一个登陆请求/login/，携带用户名和密码：即本来是请求URL是/login/ ② 用户名和密码正确：服务器返回一个302状态码，且还有个响应头Location: /home.html/ ③ 客户端收到这个响应后，会再发送一个请求/home.html/：重定向，客户端再次发送一个请求。
+
+   ```java
+   response.sendRedirect("/hello/html/home.html");
+   //等价于：
+   //response.setStatus(302);
+   //response.setHeader("Location", "/hello/html/home.html");
+   ```
+
+   ![image-20250305163336322](images/image-20250305163336322.png)
+
+4. **304 Not Modified**：说明无需再次传输请求的内容，也就是说可以使用缓存的内容。
+
+   客户端会缓存一些静态资源，比如HTML页面，服务器发现客户端这次请求的内容我上一次已经给过你了，而且这次请求的内容在我的服务器这边根本就没有动过。服务器端就会返回一个304状态码给客户端，和一些常规的响应头，不返回请求的资源了。告诉客户端这次响应的内容，我就不响应给你了，你直接从自己的缓存中拿吧。
+
+5. **400 Bad Request**：由于语法无效，服务器无法理解该请求。
+
+6. **401 Unauthorized**：由于缺乏目标资源要求的身份验证凭证，请求被拒绝。
+
+7. **403 Forbidden**：服务器端有能力处理该请求，但是拒绝授权访问。
+
+8. **405 Method Not Allowed**：当前HTTP请求的方法不合法。
+
+9. **406 Not Acceptable**：服务器端无法提供与Accept-Charset以及Accept-Language指定的值相匹配的响应。
+
+10. **408 Request Timeout**：服务器想要将当前连接关闭（没有在使用），一些服务器会在空闲链接上发送此信息，即便是在客户端没有发送任何请求的情况下。
+
+11. **500 Internal Server Error**：所请求的服务器遇到以外的情况并阻止其执行请求。
+
+12. **501 Not Implemented**：请求的方法不被服务器支持，因此无法被处理。服务器必须支持的方法，只有GET和HEAD
+
+13. **502 Bad Gateway**：作为网关或代理角色的服务器，从上游服务器（如tomcat）中接收到的响应是无效的。
+
+14. **503 Service Unavailable**：服务器尚未处于可以接受请求的状态，通常造成这种情况的原因是由于服务器挺急维护或者超载。
+
 [^Package]: Package 网络层数据的通常叫法
 [^Segment]: Segment 传输层数据的通常叫法
 [^网络层总长度]: 16位，即16个二进制位，对应1Byte = 8 bit ，即2个字节，16位二进制所表示的数就是1111 1111，即65535
