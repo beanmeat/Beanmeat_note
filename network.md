@@ -2810,6 +2810,51 @@ Alice发的内容有可能是被篡改过的，或者有人伪装成Alice发消�
 #### 查看Windows已经信任的证书
 
 ![image-20250316180753036](images/image-20250316180753036.png)
+## HTTPS
+
+### 概述
+
+**HTTPS（HyperText Transfer Protocol Secure），译为超文本传输安全协议**
+
+1. 常称为HTTP over TLS，HTTP over SSL，HTTP Secure。由网景公司于1994年首次提出，HTTPS是在HTTP的基础上使用SSL/TLS来加密报文，对窃听和中间人攻击提供合理的防护。HTTPS就是身披SSL/TLS外壳的HTTP。HTTPS是一种通过计算机网络进行安全通信的传输协议，经由HTTP进行通信，利用SSL/TLS建立安全信道，加密数据包。HTTPS使用的主要目的是提供对网站服务器的身份认证，同时保护交换数据的隐私与完整性。
+
+2. HTTPS的默认端口号是443（HTTP是80）
+
+3. 在浏览器上输入http://www.baidu.com会自动重定向到https://www.baidu.com
+
+   ![image-20250329231109769](images/image-20250329231109769.png)
+
+4. HTTPS的成本
+
+   >证书的费用
+   >
+   >加解密计算
+   >
+   >降低了访问速度
+
+   有些企业的做法是：包含敏感数据的请求才使用HTTPS，其他保持使用HTTP
+
+### SSL/TLS
+
+TLS（Transport Layer Security），译为：传输层安全性协议，前身是SSL（Secure Sockets Layer），译为：安全套接层。
+
+SSL/TLS工作在哪一层：应用层和传输层之间。要将HTTP报文加密后，在发给传输层。其中SSL/TLS这一层又分为握手层和记录层。
+
+![image-20250329231253076](images/image-20250329231253076.png)
+
+### OpenSSL
+
+OpenSSL是SSL/TLS协议的开源实现，始于1998年，支持Windows,Mac,Linux等平台。利用OpenSSL可以使用SSL/TLS的一些功能，比如加密，生成密钥对，生成签名证书。Linux，Mac一般自带OpenSSL
+
+Windows下载安装OpenSSL：https://slproweb.com/products/Win32OpenSSL.html
+
+>常用命令：
+>
+>​		生成私钥：openss genrsa -out mj.key
+>
+>​		生成公钥：open rsa -in mj.key -pubout -out mj.pem
+
+可以使用OpenSSL构建一套属于自己的CA，自己给自己颁发证书，称为“自签名证书”。
 [^Package]: Package 网络层数据的通常叫法
 [^Segment]: Segment 传输层数据的通常叫法
 [^网络层总长度]: 16位，即16个二进制位，对应1Byte = 8 bit ，即2个字节，16位二进制所表示的数就是1111 1111，即65535
