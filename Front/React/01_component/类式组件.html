@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>类式组件</title>
+</head>
+<body>
+  <div id="test"></div>
+
+  <script src="../js/react.development.js" type="text/javascript"></script>
+  <script src="../js/react-dom.development.js" type="text/javascript"></script>
+
+  <script src="../js/babel.min.js" type="text/javascript"></script>
+
+  <script type="text/babel">
+    class MyComponent extends React.Component{
+      render(){
+        /**
+         * render是放在原型对象上的，供实例对象使用
+         * render中的this指的是MyComponent实例对象
+         */
+        console.log(this)
+        return <h2>类定义组件（适用于【复杂对象】的定义）</h2>
+      }
+    }
+
+    ReactDOM.render(<MyComponent/>,document.getElementById('test'))
+  </script>
+</body>
+</html>
