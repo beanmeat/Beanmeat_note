@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>声明周期</title>
+</head>
+<body>
+<div id="test"></div>
+
+<script src="../js/react.development.js" type="text/javascript"></script>
+<script src="../js/react-dom.development.js" type="text/javascript"></script>
+
+<script src="../js/babel.min.js" type="text/javascript"></script>
+
+<script type="text/babel">
+   class Life extends React.Component {
+
+       state = {opacity: 1}
+       render() {
+           console.log('render')
+           return (
+               <div>
+                   <h2 style={{opacity: this.state.opacity}}>React</h2>
+                   <button onClick={this.death}>结束</button>
+               </div>
+           )
+       }
+
+       // 组件挂在完毕
+       componentDidMount() {
+           this.timer = setInterval(() => {
+               let { opacity } = this.state
+               opacity -= 0.1
+               if(opacity <= 0) opacity = 1
+               this.setState({opacity})
+           },200)
+       }
+
+       // 组件将要卸载
+       componentWillUnmount() {
+           clearInterval(this.timer)
+       }
+
+       death = () => {
+           // 卸载组件
+           ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+       }
+   }
+
+   ReactDOM.render(<Life/>,document.getElementById('test'))
+</script>
+</body>
+</html>
