@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符串形式的ref</title>
+</head>
+<body>
+<div id="test"></div>
+
+<script src="../js/react.development.js" type="text/javascript"></script>
+<script src="../js/react-dom.development.js" type="text/javascript"></script>
+
+<script src="../js/babel.min.js" type="text/javascript"></script>
+
+<script type="text/babel">
+    class Beanmeat extends React.Component {
+        showLeftData = () => {
+            const { leftInput } = this.refs
+            alert(leftInput.value)
+        }
+
+        showRightData = () => {
+            const { rightInput } = this.refs
+            alert(rightInput.value)
+        }
+
+        render() {
+            return (
+                <div>
+                    <input ref="leftInput" type="text" placeholder="点击按钮提示数据"/>&nbsp;
+                    <button onClick={this.showLeftData}>左侧数据</button>&nbsp;
+                    <input ref="rightInput" onBlur={this.showRightData} type="text" placeholder="失去焦点提示数据"/>&nbsp;
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(<Beanmeat/>,document.getElementById('test'))
+</script>
+</body>
+</html>

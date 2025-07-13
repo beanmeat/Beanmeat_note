@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>createRef</title>
+</head>
+<body>
+<div id="test"></div>
+
+<script src="../js/react.development.js" type="text/javascript"></script>
+<script src="../js/react-dom.development.js" type="text/javascript"></script>
+
+<script src="../js/babel.min.js" type="text/javascript"></script>
+
+<script type="text/babel">
+    class Beanmeat extends React.Component {
+        /**
+         * React.createRef调用后返回一个容器，这个容器可以存储被ref所标识的节点
+         * @type {*}
+         */
+        myRef = React.createRef()
+        showLeftData = () => {
+            alert(this.myRef.current.value)
+        }
+
+        render() {
+            return (
+                <div>
+                    <input ref={this.myRef} type="text" placeholder="点击按钮提示数据"/>&nbsp;
+                    <button onClick={this.showLeftData}>左侧数据</button>&nbsp;
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(<Beanmeat/>,document.getElementById('test'))
+</script>
+</body>
+</html>
