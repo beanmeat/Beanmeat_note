@@ -2401,7 +2401,7 @@ var describeComponentFrame = function (name, source, ownerName) {
     var fileName = path.replace(BEFORE_SLASH_RE, '');
     {
       // In DEV, include code for a common special case:
-      // prefer "folder/index.js" instead of just "index.js".
+      // prefer "folder/index.jsx" instead of just "index.jsx".
       if (/^index\./.test(fileName)) {
         var match = path.match(BEFORE_SLASH_RE);
         if (match) {
