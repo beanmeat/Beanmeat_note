@@ -4890,7 +4890,7 @@
     // Mark anything that was blocked on this as no longer blocked
     // and eligible for a replay.
     if (queuedDiscreteEvents.length > 0) {
-      scheduleCallbackIfUnblocked(queuedDiscreteEvents[0], unblocked); // This is a exponential search for each boundary that commits. I think it's
+      scheduleCallbackIfUnblocked(queuedDiscreteEvents[0], unblocked); // This is a exponential Search for each boundary that commits. I think it's
       // worth it because we expect very few discrete events to queue up and once
       // we are actually fully unblocked it will be fast to replay them.
 
@@ -13666,7 +13666,7 @@
       // going for the Map. It'd like to explore hitting that path first in
       // forward-only mode and only go for the Map once we notice that we need
       // lots of look ahead. This doesn't handle reversal as well as two ended
-      // search but that's unusual. Besides, for the two ended optimization to
+      // Search but that's unusual. Besides, for the two ended optimization to
       // work on Iterables, we'd need to copy the whole set.
       // In this first iteration, we'll just live with hitting the bad case
       // (adding everything to a Map) in for every insert/move.
@@ -21112,9 +21112,9 @@
   }
 
   function getHostSibling(fiber) {
-    // We're going to search forward into the tree until we find a sibling host
+    // We're going to Search forward into the tree until we find a sibling host
     // node. Unfortunately, if multiple insertions are done in a row we have to
-    // search past them. This leads to exponential search for the next sibling.
+    // Search past them. This leads to exponential Search for the next sibling.
     // TODO: Find a more efficient way to do this.
     var node = fiber;
 
@@ -21135,7 +21135,7 @@
 
       while (node.tag !== HostComponent && node.tag !== HostText && node.tag !== DehydratedFragment) {
         // If it is not host node and, we might have a host node inside it.
-        // Try to search down until we find one.
+        // Try to Search down until we find one.
         if (node.flags & Placement) {
           // If we don't have a child, try the siblings instead.
           continue siblings;
@@ -21360,7 +21360,7 @@
 
         if (node.tag === HostPortal) {
           // When we go out of the portal, we need to restore the parent.
-          // Since we don't keep a stack of them, we will search for it.
+          // Since we don't keep a stack of them, we will Search for it.
           currentParentIsValid = false;
         }
       }
@@ -24586,7 +24586,7 @@
 
       if (didMatch) {
         // We have a match. This only drills down to the closest host components.
-        // There's no need to search deeper because for the purpose of giving
+        // There's no need to Search deeper because for the purpose of giving
         // visual feedback, "flashing" outermost parent rectangles is sufficient.
         findHostInstancesForFiberShallowly(fiber, hostInstances);
       } else {
