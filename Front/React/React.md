@@ -51,3 +51,19 @@
 ```
 
 ## React ajax
+
+axios
+
+## pubSubJS
+
+消息订阅预发布
+
+## React路由
+
+### react-router
+
+1. react的一个插件库；
+2. 专门实现一个SPA应用；
+3. 基于React的项目都会用到此库；
+
+### 路由组件和一般组件

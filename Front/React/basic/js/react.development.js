@@ -146,7 +146,7 @@ var objectAssign = shouldUseNative() ? Object.assign : function (target, source)
  * Use invariant() to assert state which your program assumes to be true.
  *
  * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
+ * to provide information About what broke and what you were
  * expecting.
  *
  * The invariant message will be stripped in production, but the invariant
@@ -179,7 +179,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
       error.name = 'Invariant Violation';
     }
 
-    error.framesToPop = 1; // we don't care about invariant's own frame
+    error.framesToPop = 1; // we don't care About invariant's own frame
     throw error;
   }
 }
@@ -300,7 +300,7 @@ function warnNoop(publicInstance, callerName) {
     if (didWarnStateUpdateForUnmountedComponent[warningKey]) {
       return;
     }
-    warningWithoutStack$1(false, "Can't call %s on a component that is not yet mounted. " + 'This is a no-op, but it might indicate a bug in your application. ' + 'Instead, assign to `this.state` directly or define a `state = {};` ' + 'class property with the desired state in the %s component.', callerName, componentName);
+    warningWithoutStack$1(false, "Can't call %s on a components that is not yet mounted. " + 'This is a no-op, but it might indicate a bug in your application. ' + 'Instead, assign to `this.state` directly or define a `state = {};` ' + 'class property with the desired state in the %s components.', callerName, componentName);
     didWarnStateUpdateForUnmountedComponent[warningKey] = true;
   }
 }
@@ -310,7 +310,7 @@ function warnNoop(publicInstance, callerName) {
  */
 var ReactNoopUpdateQueue = {
   /**
-   * Checks whether or not this composite component is mounted.
+   * Checks whether or not this composite components is mounted.
    * @param {ReactClass} publicInstance The instance we want to test.
    * @return {boolean} True if mounted, false otherwise.
    * @protected
@@ -325,13 +325,13 @@ var ReactNoopUpdateQueue = {
    * certainty that we are **not** in a DOM transaction.
    *
    * You may want to call this when you know that some deeper aspect of the
-   * component's state has changed but `setState` was not called.
+   * components's state has changed but `setState` was not called.
    *
    * This will not invoke `shouldComponentUpdate`, but it will invoke
    * `componentWillUpdate` and `componentDidUpdate`.
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
-   * @param {?function} callback Called after component is updated.
+   * @param {?function} callback Called after components is updated.
    * @param {?string} callerName name of the calling function in the public API.
    * @internal
    */
@@ -348,7 +348,7 @@ var ReactNoopUpdateQueue = {
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
    * @param {object} completeState Next state.
-   * @param {?function} callback Called after component is updated.
+   * @param {?function} callback Called after components is updated.
    * @param {?string} callerName name of the calling function in the public API.
    * @internal
    */
@@ -364,7 +364,7 @@ var ReactNoopUpdateQueue = {
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
    * @param {object} partialState Next partial state to be merged with state.
-   * @param {?function} callback Called after component is updated.
+   * @param {?function} callback Called after components is updated.
    * @param {?string} Name of the calling function in the public API.
    * @internal
    */
@@ -379,12 +379,12 @@ var emptyObject = {};
 }
 
 /**
- * Base class helpers for the updating state of a component.
+ * Base class helpers for the updating state of a components.
  */
 function Component(props, context, updater) {
   this.props = props;
   this.context = context;
-  // If a component has string refs, we will assign a different object later.
+  // If a components has string refs, we will assign a different object later.
   this.refs = emptyObject;
   // We initialize the default updater but the real one gets injected by the
   // renderer.
@@ -407,7 +407,7 @@ Component.prototype.isReactComponent = {};
  *
  * When a function is provided to setState, it will be called at some point in
  * the future (not synchronously). It will be called with the up to date
- * component arguments (state, props, context). These values can be different
+ * components arguments (state, props, context). These values can be different
  * from this.* because your function may be called after receiveProps but before
  * shouldComponentUpdate, and this new state, props, and context will not yet be
  * assigned to this.
@@ -428,7 +428,7 @@ Component.prototype.setState = function (partialState, callback) {
  * certainty that we are **not** in a DOM transaction.
  *
  * You may want to call this when you know that some deeper aspect of the
- * component's state has changed but `setState` was not called.
+ * components's state has changed but `setState` was not called.
  *
  * This will not invoke `shouldComponentUpdate`, but it will invoke
  * `componentWillUpdate` and `componentDidUpdate`.
@@ -470,12 +470,12 @@ function ComponentDummy() {}
 ComponentDummy.prototype = Component.prototype;
 
 /**
- * Convenience component with default shallow equality check for sCU.
+ * Convenience components with default shallow equality check for sCU.
  */
 function PureComponent(props, context, updater) {
   this.props = props;
   this.context = context;
-  // If a component has string refs, we will assign a different object later.
+  // If a components has string refs, we will assign a different object later.
   this.refs = emptyObject;
   this.updater = updater || ReactNoopUpdateQueue;
 }
@@ -924,7 +924,7 @@ function unstable_shouldYield() {
 // consistent implementation.
 var localDate = Date;
 
-// This initialization code may run even on server environments if a component
+// This initialization code may run even on server environments if a components
 // just imports ReactDOM (e.g. for findDOMNode). Some environments might not
 // have setTimeout or clearTimeout. However, we always expect them to be defined
 // on the client. https://github.com/facebook/react/pull/13088
@@ -1172,10 +1172,10 @@ typeof MessageChannel !== 'function') {
 
 
 // To preserve the "Pause on caught exceptions" behavior of the debugger, we
-// replay the begin phase of a failed component inside invokeGuardedCallback.
+// replay the begin phase of a failed components inside invokeGuardedCallback.
 
 
-// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
+// Warn About deprecated, async-unsafe lifecycles; relates to RFC #6:
 
 
 // Gather advanced timing metrics for Profiler subtrees.
@@ -1572,7 +1572,7 @@ var ReactCurrentDispatcher = {
 /**
  * Keeps track of the current owner.
  *
- * The current owner is the component who should own any components that are
+ * The current owner is the components who should own any components that are
  * currently being constructed.
  */
 var ReactCurrentOwner = {
@@ -1834,7 +1834,7 @@ function defineKeyPropWarningGetter(props, displayName) {
   var warnAboutAccessingKey = function () {
     if (!specialPropKeyWarningShown) {
       specialPropKeyWarningShown = true;
-      warningWithoutStack$1(false, '%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
+      warningWithoutStack$1(false, '%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child components, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
     }
   };
   warnAboutAccessingKey.isReactWarning = true;
@@ -1848,7 +1848,7 @@ function defineRefPropWarningGetter(props, displayName) {
   var warnAboutAccessingRef = function () {
     if (!specialPropRefWarningShown) {
       specialPropRefWarningShown = true;
-      warningWithoutStack$1(false, '%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
+      warningWithoutStack$1(false, '%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child components, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
     }
   };
   warnAboutAccessingRef.isReactWarning = true;
@@ -1889,7 +1889,7 @@ var ReactElement = function (type, key, ref, self, source, owner, props) {
     ref: ref,
     props: props,
 
-    // Record the component responsible for creating this element.
+    // Record the components responsible for creating this element.
     _owner: owner
   };
 
@@ -2224,7 +2224,7 @@ function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext)
     var iteratorFn = getIteratorFn(children);
     if (typeof iteratorFn === 'function') {
       {
-        // Warn about using Maps as children
+        // Warn About using Maps as children
         if (iteratorFn === children.entries) {
           !didWarnAboutMaps ? warning$1(false, 'Using Maps as children is unsupported and will likely yield ' + 'unexpected results. Convert it to a sequence/iterable of keyed ' + 'ReactElements instead.') : void 0;
           didWarnAboutMaps = true;
@@ -2277,9 +2277,9 @@ function traverseAllChildren(children, callback, traverseContext) {
 }
 
 /**
- * Generate a key string that identifies a component within a set.
+ * Generate a key string that identifies a components within a set.
  *
- * @param {*} component A component that could contain a manual key.
+ * @param {*} component A components that could contain a manual key.
  * @param {number} index Index that is used if a manual key is not provided.
  * @return {string}
  */
@@ -2469,7 +2469,7 @@ function createContext(defaultValue, calculateChangedBits) {
       _context: context,
       _calculateChangedBits: context._calculateChangedBits
     };
-    // $FlowFixMe: Flow complains about not setting a value, which is intentional here
+    // $FlowFixMe: Flow complains About not setting a value, which is intentional here
     Object.defineProperties(Consumer, {
       Provider: {
         get: function () {
@@ -2517,7 +2517,7 @@ function createContext(defaultValue, calculateChangedBits) {
         }
       }
     });
-    // $FlowFixMe: Flow complains about missing properties because it doesn't understand defineProperty
+    // $FlowFixMe: Flow complains About missing properties because it doesn't understand defineProperty
     context.Consumer = Consumer;
   }
 
@@ -2549,7 +2549,7 @@ function lazy(ctor) {
           return defaultProps;
         },
         set: function (newDefaultProps) {
-          warning$1(false, 'React.lazy(...): It is not supported to assign `defaultProps` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
+          warning$1(false, 'React.lazy(...): It is not supported to assign `defaultProps` to ' + 'a lazy components import. Either specify them where the components ' + 'is defined, or create a wrapping components around it.');
           defaultProps = newDefaultProps;
           // Match production behavior more closely:
           Object.defineProperty(lazyType, 'defaultProps', {
@@ -2563,7 +2563,7 @@ function lazy(ctor) {
           return propTypes;
         },
         set: function (newPropTypes) {
-          warning$1(false, 'React.lazy(...): It is not supported to assign `propTypes` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
+          warning$1(false, 'React.lazy(...): It is not supported to assign `propTypes` to ' + 'a lazy components import. Either specify them where the components ' + 'is defined, or create a wrapping components around it.');
           propTypes = newPropTypes;
           // Match production behavior more closely:
           Object.defineProperty(lazyType, 'propTypes', {
@@ -2580,7 +2580,7 @@ function lazy(ctor) {
 function forwardRef(render) {
   {
     if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
-      warningWithoutStack$1(false, 'forwardRef requires a render function but received a `memo` ' + 'component. Instead of forwardRef(memo(...)), use ' + 'memo(forwardRef(...)).');
+      warningWithoutStack$1(false, 'forwardRef requires a render function but received a `memo` ' + 'components. Instead of forwardRef(memo(...)), use ' + 'memo(forwardRef(...)).');
     } else if (typeof render !== 'function') {
       warningWithoutStack$1(false, 'forwardRef requires a render function but was given %s.', render === null ? 'null' : typeof render);
     } else {
@@ -2590,7 +2590,7 @@ function forwardRef(render) {
     }
 
     if (render != null) {
-      !(render.defaultProps == null && render.propTypes == null) ? warningWithoutStack$1(false, 'forwardRef render functions do not support propTypes or defaultProps. ' + 'Did you accidentally pass a React component?') : void 0;
+      !(render.defaultProps == null && render.propTypes == null) ? warningWithoutStack$1(false, 'forwardRef render functions do not support propTypes or defaultProps. ' + 'Did you accidentally pass a React components?') : void 0;
     }
   }
 
@@ -2609,7 +2609,7 @@ function isValidElementType(type) {
 function memo(type, compare) {
   {
     if (!isValidElementType(type)) {
-      warningWithoutStack$1(false, 'memo: The first argument must be a component. Instead ' + 'received: %s', type === null ? 'null' : typeof type);
+      warningWithoutStack$1(false, 'memo: The first argument must be a components. Instead ' + 'received: %s', type === null ? 'null' : typeof type);
     }
   }
   return {
@@ -2621,7 +2621,7 @@ function memo(type, compare) {
 
 function resolveDispatcher() {
   var dispatcher = ReactCurrentDispatcher.current;
-  !(dispatcher !== null) ? invariant(false, 'Hooks can only be called inside the body of a function component. (https://fb.me/react-invalid-hook-call)') : void 0;
+  !(dispatcher !== null) ? invariant(false, 'Hooks can only be called inside the body of a function components. (https://fb.me/react-invalid-hook-call)') : void 0;
   return dispatcher;
 }
 
@@ -2741,8 +2741,8 @@ var printWarning$1 = function() {};
  * @param {object} typeSpecs Map of name to a ReactPropType
  * @param {object} values Runtime values that need to be type-checked
  * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
+ * @param {string} componentName Name of the components for error messages.
+ * @param {?Function} getStack Returns the components stack.
  * @private
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
@@ -2877,7 +2877,7 @@ function validateExplicitKey(element, parentType) {
   // assigning it a key.
   var childOwner = '';
   if (element && element._owner && element._owner !== ReactCurrentOwner.current) {
-    // Give the component that originally created this child.
+    // Give the components that originally created this child.
     childOwner = ' It was passed a child from ' + getComponentName(element._owner.type) + '.';
   }
 
@@ -2998,7 +2998,7 @@ function createElementWithValidation(type, props, children) {
   if (!validType) {
     var info = '';
     if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
-      info += ' You likely forgot to export your component from the file ' + "it's defined in, or you might have mixed up default and named imports.";
+      info += ' You likely forgot to export your components from the file ' + "it's defined in, or you might have mixed up default and named imports.";
     }
 
     var sourceInfo = getSourceInfoErrorAddendum(props);
@@ -3015,7 +3015,7 @@ function createElementWithValidation(type, props, children) {
       typeString = 'array';
     } else if (type !== undefined && type.$$typeof === REACT_ELEMENT_TYPE) {
       typeString = '<' + (getComponentName(type.type) || 'Unknown') + ' />';
-      info = ' Did you accidentally export a JSX literal instead of a component?';
+      info = ' Did you accidentally export a JSX literal instead of a components?';
     } else {
       typeString = typeof type;
     }
