@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Switch,Route,Redirect} from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
+import Test from './pages/Test'
 import Header from './components/Header'
 import BeanmeatNavLink from "./components/BeanmeatNavLink";
 import './App.css'
@@ -28,8 +29,8 @@ export default class App extends Component {
                         <div className="panel">
                             <div className="panel-body">
                                 <Switch>
-                                    <Route path='/about' component={About} />
-                                    <Route path='/home' component={Home} />
+                                    <Route exact={true} path='/about' component={About} />
+                                    <Route exact={true} path='/home' component={Home} />
                                     {/*如果谁匹配不上,重定向*/}
                                     <Redirect to="/about"/>
                                 </Switch>
