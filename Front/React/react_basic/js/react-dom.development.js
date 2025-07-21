@@ -15242,7 +15242,7 @@ function updateSuspenseComponent(current$$1, workInProgress, renderExpirationTim
   // So, the extra fragment fibers are only used if the children time out.
   // Otherwise, we render the primary children directly. This requires some
   // custom reconciliation logic to preserve the state of the primary
-  // children. It's essentially a very basic form of re-parenting.
+  // children. It's essentially a very react_basic form of re-parenting.
 
   // `child` points to the child fiber. In the normal case, this is the first
   // fiber of the primary children set. In the timed-out case, it's a

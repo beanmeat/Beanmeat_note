@@ -8228,7 +8228,7 @@
 
   function extractEvents$5(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
     // TODO: we should remove the concept of a "SimpleEventPlugin".
-    // This is the basic functionality of the event system. All
+    // This is the react_basic functionality of the event system. All
     // the other plugins are essentially polyfills. So the plugin
     // should probably be inlined somewhere and have its logic
     // be core the to event system. This would potentially allow
