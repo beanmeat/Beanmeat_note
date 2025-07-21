@@ -31,7 +31,7 @@ export default class App extends Component {
                                 <Switch>
                                     <Route exact={true} path='/about' component={About} />
                                     <Route exact={true} path='/home' component={Home} />
-                                    {/*如果谁匹配不上,重定向*/}
+                                    {/*如果匹配不上,重定向*/}
                                     <Redirect to="/about"/>
                                 </Switch>
                             </div>
