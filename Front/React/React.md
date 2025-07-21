@@ -39,7 +39,7 @@
 		robots.txt -------- 爬虫协议文件
 	src ---- 源码文件夹
 		App.css -------- App组件的样式
-		App.js --------- App组件
+		App.jsx --------- App组件
 		App.test.js ---- 用于给App做测试
 		index.css ------ 样式
 		index.js ------- 入口文件
