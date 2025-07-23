@@ -1,39 +1,35 @@
 import React, {Component} from 'react';
-import store from '../../redux/store'
+// 引入store
 import {createIncrementAction,createDecrementAction,createIncrementAsyncAction} from "../../redux/count_action";
+// 引入connect用于链接UI跟redux
+import {connect} from "react-redux";
 
 class Count extends Component {
 
-    // componentDidMount() {
-    //     // 检测redux中状态的变化，只要变化，就调用render重新渲染；
-    //     store.subscribe(() => {
-    //         this.setState({})
-    //     })
-    // }
 
     increment = () => {
         const {value} = this.selectNumber
-        store.dispatch(createIncrementAction(value * 1))
+        this.props.jia(value * 1)
     }
     decrement = () => {
         const {value} = this.selectNumber
-        store.dispatch(createDecrementAction(value * 1))
+        this.props.jian(value * 1)
     }
     incrementIfOld = () => {
         const {value} = this.selectNumber
-        const count = store.getState()
-        if(count % 2 !== 0) {
-            store.dispatch(createIncrementAction(value * 1))
+        if(this.props.count % 2 !== 0) {
+            this.props.jia(value * 1)
         }
     }
     incrementAsync = () => {
         const {value} = this.selectNumber
-        store.dispatch(createIncrementAsyncAction(value * 1,500))
+        this.props.jiaAsync(value * 1,500)
     }
     render() {
+
         return (
             <div>
-                <h2>当前求和为：{store.getState()}</h2>&nbsp;
+                <h2>当前求和为：{this.props.count}</h2>&nbsp;
                 <select ref={c => this.selectNumber = c}>
                     <option>1</option>
                     <option>2</option>
@@ -48,4 +44,20 @@ class Count extends Component {
     }
 }
 
-export default Count;
+
+export default connect (
+    state => ({count: state}),
+    // mapDispatchToProps的一般写法
+    // dispatch => ({
+    //         jia: number => dispatch(createIncrementAction(number)),
+    //         jian: number => dispatch(createDecrementAction(number)),
+    //         jiaAsync: (number,time) => dispatch(createIncrementAsyncAction(number,time)),
+    //     })
+
+    // mapDispatchToProps
+    {
+        jia: createIncrementAction,
+        jian: createDecrementAction,
+        jiaAsync: createIncrementAsyncAction,
+    }
+)(Count)
