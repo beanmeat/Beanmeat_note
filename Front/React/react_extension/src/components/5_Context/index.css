@@ -1,0 +1,16 @@
+.A {
+    width: 500px;
+    background-color: #1b6d85;
+    padding: 8px;
+}
+.B {
+    width: 100%;
+    background-color: orange;
+    padding: 8px;
+}
+
+.C {
+    width: 100%;
+    background-color: #2e6da4;
+    padding: 8px;
+}
