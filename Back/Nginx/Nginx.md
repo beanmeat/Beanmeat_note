@@ -612,6 +612,81 @@ server{
 
 ##### 匹配顺序
 
-由于server_name指令支持通配符和正则表达式，因此在包含多个虚拟主机的配置文件中，可能会出现一个名称被多个虚拟主机的server_name匹配成功，当遇到这种情况；
+由于server_name指令支持通配符和正则表达式，因此在包含多个虚拟主机的配置文件中，可能会出现一个名称被多个虚拟主机的server_name匹配成功，当遇到这种情况；**范围越小越优先生效**；
 
 #### [location](https://nginx.org/en/docs/http/ngx_http_core_module.html#location)
+
+location：用来设置请求的URI；
+
+| 语法   | location [  =  \|   ~  \|  ~*   \|   ^~   \|@ ] uri{...} |
+| ------ | -------------------------------------------------------- |
+| 默认值 | —                                                        |
+| 位置   | server,location                                          |
+
+uri变量是待匹配的请求字符串，可以不包含正则表达式，也可以包含正则表达式，那么nginx服务器在搜索匹配location的时候，是先使用不包含正则表达式进行匹配，找到一个匹配度最高的一个，然后在通过包含正则表达式的进行匹配，如果能匹配到直接访问，匹配不到，就使用刚才匹配度最高的那个location来处理请求。
+
+##### /
+
+要求必须以指定模式开始
+
+```shell
+server {
+	listen 80;
+	server_name 127.0.0.1;
+	location /abc{
+		default_type text/plain;
+		return 200 "access success";
+	}
+}
+以下访问都是正确的
+http://192.168.200.133/abc
+http://192.168.200.133/abc?p1=TOM
+http://192.168.200.133/abc/
+http://192.168.200.133/abcdef
+```
+
+##### =
+
+精确匹配
+
+```shell
+server {
+	listen 80;
+	server_name 127.0.0.1;
+	location =/abc{
+		default_type text/plain;
+		return 200 "access success";
+	}
+}
+可以匹配到
+http://192.168.200.133/abc
+http://192.168.200.133/abc?p1=TOM
+匹配不到
+http://192.168.200.133/abc/
+http://192.168.200.133/abcdef
+```
+
+##### ~
+
+用于表示当前uri中包含了正则表达式，并且区分大小写
+
+##### ~*
+
+用于表示当前uri中包含了正则表达式，并且不区分大小写
+
+##### ^~
+
+用于不包含正则表达式的uri前，功能和不加符号的一致，唯一不同的是，如果模式匹配，那么就停止搜索其他模式了；
+
+```shell
+server {
+	listen 80;
+	server_name 127.0.0.1;
+	location ^~/abc{
+		default_type text/plain;
+		return 200 "access success";
+	}
+}
+```
+
+#### root
