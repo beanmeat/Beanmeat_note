@@ -538,12 +538,16 @@ keepalive_requests：用于控制一个长连接（keep-alive）上可以处理�
 
 #### [server](#Nginx静态资源部署) 
 
+
+
 ## Nginx静态资源部署
 
 通过浏览器发送一个HTTP请求实现从客户端发送请求到服务器端获取所需要内容后并把内容回显展示在页面的一个过程。这个时候，我们所请 求的内容就分为两种类型，一类是静态资源、一类是动态资源；
 
 静态资源即指在服务器端真实存在并且能直接拿来展示的一些文件，比如常见的html页面、css文件、js文件、图 片、视频等资源；
 动态资源即指在服务器端真实存在但是要想获取需要经过一定的业务逻辑处理，根据不同的条件展示在页面不同这 一部分内容，比如说报表数据展示、根据当前登录用户展示相关具体数据等资源；
+
+
 
 ### Nginx静态资源配置指令
 
@@ -565,6 +569,8 @@ listen localhost:8000;
 ```
 
 default_server属性是标识符，用来将此虚拟主机设置成默认主机。所谓的默认主机指的是如果没有匹配到对应的address:port，则会默认执行的；如果不指定默认使用的是第一个server
+
+
 
 #### [server_name](https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name)
 
@@ -613,6 +619,8 @@ server{
 ##### 匹配顺序
 
 由于server_name指令支持通配符和正则表达式，因此在包含多个虚拟主机的配置文件中，可能会出现一个名称被多个虚拟主机的server_name匹配成功，当遇到这种情况；**范围越小越优先生效**；
+
+
 
 #### [location](https://nginx.org/en/docs/http/ngx_http_core_module.html#location)
 
@@ -689,4 +697,339 @@ server {
 }
 ```
 
-#### root
+
+
+#### [root&alias](https://nginx.org/en/docs/http/ngx_http_core_module.html#root)
+
+root：设置请求的根目录
+path为Nginx服务器接收到请求以后查找资源的根目录路径；
+
+| Syntax:  | `root path;`                                   |
+| :------- | ---------------------------------------------- |
+| Default: | `root html;`                                   |
+| Context: | `http`, `server`, `location`, `if in location` |
+
+alias：用来更改location的URI；
+path为修改后的根路径；
+
+| Syntax:  | `alias path;` |
+| :------- | ------------- |
+| Default: | —             |
+| Context: | `location`    |
+
+
+
+**example**
+
+1. 在`/usr/local/nginx/html`目录下创建一个 images目录，并在目录下放入一张图片`tree.png`图片；
+
+2. nginx.conf配置调整；
+
+   ```shell
+   location /images {
+   	root /usr/local/nginx/html;
+   }
+   ```
+
+   ```shell
+   location /images {
+   	alias /usr/local/nginx/html;
+   }
+   ```
+
+配置root时的访问路径：http://106.14.115.129/images/tree.png
+
+配置alias时的访问路径：http://106.14.115.129/images/images/tree.png
+
+>如果location路径是以/结尾，则alias也必须是以/结尾，root没有要求
+>
+>```shell
+>location /images/ {
+>	alias /usr/local/nginx/html/images/;
+>}
+>```
+
+
+
+#### index
+
+index：设置网站的默认首页；index后面可以跟多个设置，如果访问的时候没有指定具体访问的资源，则会依次进行查找，找到第一个为止；
+
+| Syntax:  | `index file ...;`            |
+| :------- | ---------------------------- |
+| Default: | `index index.html;`          |
+| Context: | `http`, `server`, `location` |
+
+```shell
+location / {
+	root /usr/local/nginx/html;
+	index index.html index.htm;
+}
+访问该location的时候，可以通过 http://ip:port/，地址后面如果不添加任何内容，则默认依次访问index.html和index.htm，找到第一个来进行返回;
+```
+
+
+
+#### error_page
+
+error_page：设置网站的错误页面；
+
+| Syntax:  | `error_page code ... [=[response]] uri;`       |
+| :------- | ---------------------------------------------- |
+| Default: | —                                              |
+| Context: | `http`, `server`, `location`, `if in location` |
+
+当出现对应的响应code后，可以指定具体跳转的地址
+
+```shell
+server {
+	error_page 404 http://www.itcast.cn;
+}
+```
+
+指定重定向地址
+
+```shell
+server{
+	error_page 404 /50x.html;
+	error_page 500 502 503 504 /50x.html;
+	location =/50x.html{
+		root html;
+	}
+}
+```
+
+使用location的@符合完成错误信息展示
+
+```shell
+server{
+	error_page 404 @jump_to_error;
+	location @jump_to_error {
+		default_type text/plain;
+		return 404 'Not Found Page...';
+	}
+}
+```
+
+可选项`=[response]`用来将响应码更改为另外一个响应码；
+
+```shell
+server{
+	error_page 404 =200 /50x.html;
+	location =/50x.html{
+		root html;
+	}
+}
+这样的话，当返回404找不到对应的资源的时候，在浏览器上可以看到，最终返回的状态码是200，并跳转到50.html页面
+```
+
+>编写error_page后面的内容，404后面需要加空格，200前面不能加空格
+
+#### [sendﬁle](https://nginx.org/en/docs/http/ngx_http_core_module.html#sendfile)
+
+sendﬁle：用来开启高效的文件传输模式
+
+| Syntax:  | `sendfile on | off;`                           |
+| :------- | ---------------------------------------------- |
+| Default: | `sendfile off;`                                |
+| Context: | `http`, `server`, `location`, `if in location` |
+
+#### [tcp_nopush](https://nginx.org/en/docs/http/ngx_http_core_module.html#tcp_nopush)
+
+`tcp_nopush`：该指令必须在sendfile打开的状态下才会生效，主要是用来提升网络包的传输'效率'
+
+#### [tcp_nodelay](https://nginx.org/en/docs/http/ngx_http_core_module.html#tcp_nodelay)
+
+`tcp_nodelay`：该指令必须在keep-alive连接开启的情况下才生效，来提高网络包传输的'实时性'
+
+## Gzip
+
+### [ngx_http_gzip_module](https://nginx.org/en/docs/http/ngx_http_gzip_module.html)
+
+ngx_http_gzip_module模块是一个过滤器，它使用“gzip”方法压缩响应。这通常有助于将传输数据的体积减少一半甚至更多。将大文件压缩成体积较小的文件肯定有助于传输的效率；
+
+nginx中有axios.js，正常访问效果
+
+![image-20250730151150694](Nginx.assets/image-20250730151150694.png)
+
+修改nginx.conf配置文件
+
+```shell
+http {
+	...
+    gzip  on;
+    ...
+}
+```
+
+#### [gzip_types](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)
+
+对指定格式进行压缩，默认压缩text/html格式文件；
+
+| Syntax:  | `gzip_types mime-type ...;`  |
+| :------- | ---------------------------- |
+| Default: | `gzip_types text/html;`      |
+| Context: | `http`, `server`, `location` |
+
+由于axios是`application/javascript`格式，所以要配置gzip_types，否则不会对文件进行压缩；
+
+```shell
+http {
+	...
+    gzip  on;
+    gzip_types application/javascript;
+    ...
+}
+```
+
+执行效果：
+
+![image-20250730152144134](Nginx.assets/image-20250730152144134.png)
+
+
+
+对所有文件进行压缩（不建议）
+
+```shell
+http {
+	...
+	gzip on;
+	gzip_types *;
+	...
+}
+```
+
+**静态资源**：例如图片（如 `.jpg`、`.png`、`.gif`）、视频文件（如 `.mp4`）、音频文件（如 `.mp3`）等已经经过压缩，再进行 Gzip 压缩不仅效果微乎其微，甚至可能会增加服务器的 CPU 负载，因为压缩和解压缩这些内容会消耗额外的计算资源。
+
+
+
+#### [gzip_comp_level](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_comp_level)
+
+设置响应的gzip压缩等级；可接受的值介于1到9之间；1表示压缩程度最低，要是效率最高，9刚好相反，压缩程度最高，但是效率最低最费时间；
+
+| Syntax:  | `gzip_comp_level level;`     |
+| :------- | ---------------------------- |
+| Default: | `gzip_comp_level 1;`         |
+| Context: | `http`, `server`, `location` |
+
+```shell
+http {
+	...
+	gzip on;
+	gzip_comp_level 6;
+	...
+}
+```
+
+
+
+#### [gzip_vary](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_vary)
+
+gzip_vary：用于设置使用Gzip进行压缩发送是否携带`Vary:Accept-Encoding`头域的响应头部；主要是告诉接收方，所发送的数据经过了Gzip压缩处理；
+
+| Syntax:  | `gzip_vary on | off;`        |
+| :------- | ---------------------------- |
+| Default: | `gzip_vary off;`             |
+| Context: | `http`, `server`, `location` |
+
+```shell
+http {
+	...
+	gzip on;
+	gzip_vary on;
+	...
+}
+```
+
+![image-20250730185857203](Nginx.assets/image-20250730185857203.png)
+
+
+
+#### [gzip_buffers](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_buffers)
+
+用于处理请求压缩的缓冲区数量和大小；
+
+#### [gzip_disable](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_disable)
+
+针对不同种类客户端发起的请求，可以选择性地开启和关闭Gzip功能；
+
+#### [gzip_http_version](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_http_version)
+
+针对不同的HTTP协议版本，可以选择性地开启和关闭Gzip功能；
+
+#### [gzip_min_length](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_min_length)
+
+针对传输数据的大小，可以选择性地开启和关闭Gzip功能；（响应页面的大小可以通过头信息的`Content-Length`获取）
+
+#### [gzip_proxied](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)
+
+设置是否对服务端返回的结果进行Gzip压缩；（反向代理）
+
+### Gzip和sendfile共存问题
+
+开启sendfile以后，在读取磁盘上的静态资源文件的时候，可以减少拷贝的次数，可以不经过用户进程将静态文件通过网络设备发送出去，但是Gzip要想对资源压缩，是需要经过用户进程进行操作的；可以使用ngx_http_gzip_static_module模块的gzip_static指令来解决。
+
+### ngx_http_gzip_static_module
+
+#### 添加模块到Nginx
+
+Nginx默认是没有添加`ngx_http_gzip_static_module`模块，需手动添加；
+
+1. 查询当前Nginx的配置参数；
+
+   ```shell
+   nginx -V
+   ```
+
+2. 将nginx安装目录下sbin目录中的nginx二进制文件进行更名；
+
+   ```shell
+   cd /usr/local/nginx/sbin
+   mv nginx nginxold
+   ```
+
+3. 进入Nginx的安装目录；
+
+   ```shell
+   cd /beanmeat/nginx/nginx-1.16.1
+   ```
+
+4. 执行make clean清空之前编译的内容；
+
+   ```shell
+   make clean
+   ```
+
+5. 使用configure来配置参数；
+
+   ```shell
+   ./configure --with-http_gzip_static_module
+   ```
+
+6. 使用make命令进行编译；
+
+   ```shell
+   make
+   ```
+
+7. 将objs目录下的nginx二进制执行文件移动到nginx安装目录下的sbin目录中；
+
+   ```shell
+   mv objs/nginx /usr/local/nginx/sbin
+   ```
+
+8. 执行更新命令；
+
+   ```shell
+   make upgrade
+   ```
+
+#### gzip_static
+
+| Syntax:  | `gzip_static on | off | always;` |
+| :------- | -------------------------------- |
+| Default: | `gzip_static off;`               |
+| Context: | `http`, `server`, `location`     |
+
+检查与访问资源同名的.gz文件时，response中以gzip相关的header返回.gz文件的内容；
+
