@@ -969,6 +969,8 @@ http {
 
 开启sendfile以后，在读取磁盘上的静态资源文件的时候，可以减少拷贝的次数，可以不经过用户进程将静态文件通过网络设备发送出去，但是Gzip要想对资源压缩，是需要经过用户进程进行操作的；可以使用ngx_http_gzip_static_module模块的gzip_static指令来解决。
 
+手动操作后目测已解决；
+
 ### ngx_http_gzip_static_module
 
 #### 添加模块到Nginx
@@ -1033,3 +1035,190 @@ Nginx默认是没有添加`ngx_http_gzip_static_module`模块，需手动添加�
 
 检查与访问资源同名的.gz文件时，response中以gzip相关的header返回.gz文件的内容；
 
+## 静态资源缓存
+
+## 跨域
+
+## 防盗链
+
+### 资源盗链
+
+资源盗链指的是此内容不在自己服务器上，而是通过技术手段，绕过别人的限制将别人的内容放到自己页面上最终展示给用户。以此来盗取大网站的空间和流量。
+
+**效果演示**
+
+![image-20250731165341529](Nginx.assets/image-20250731165341529.png)
+
+在nginx中编写一个html，里面引入右边两张图片，百度的图片就是用了防盗链，导致自己页面引入百度图片的时候导致错误；
+
+```html
+<html>
+  <head>
+        <meta charset="utf-8">
+        <title>Beanmeat</title>
+        <style>
+                img { width: 300px }
+        </style>
+  </head>
+  <body>
+        <img src='http://106.14.115.129:8888/tree.png'></img>
+        <img src='https://nginx.org/img/nginx_logo.png'/>
+        <img src='https://image.baidu.com/search/detail?adpicid=0&b_applid=8883049927471694425&bdtype=0&commodity=&copyright=&cs=2726705291%2C1164975269&di=7518804108115968001&fr=click-pic&fromurl=http%253A%252F%252Fmt.sohu.com%252Fa%252F826360745_122017072&gsm=1e&hd=&height=0&hot=&ic=&ie=utf-8&imgformat=&imgratio=&imgspn=0&is=0%2C0&isImgSet=&latest=&lid=9d9081f10008f0c5&lm=&objurl=https%253A%252F%252Fq9.itc.cn%252Fimages01%252F20241113%252F0faffd1ad4d7442c8ed8d0d2f58a1b5b.png&os=3815887452%2C1079988154&pd=image_content&pi=0&pn=22&rn=1&simid=4038391850%2C278609154&tn=baiduimagedetail&width=0&word=crm&z='/>
+  </body>
+</html>
+```
+
+### Referer
+
+当浏览器向web服务器发送请求的时候，一般都会带上Referer，来告诉浏览器该网页是从哪个页面链接过来的；后台服务器可以根据获取到的这个Referer信息来源来判断是否为自己信任的网站地址，如果是则放行继续访问，如果不是则可以返回403（服务端拒绝访问）的状态信息；
+
+![image-20250731170046871](Nginx.assets/image-20250731170046871.png)
+
+| Syntax:  | `valid_referers none | blocked | server_names | string ...;` |
+| :------- | ------------------------------------------------------------ |
+| Default: | —                                                            |
+| Context: | `server`, `location`                                         |
+
+none：如果Header中的Referer为空，允许访问；
+
+blocked：在Header中的Referer不为空，但是该值被防火墙或代理进行伪装过，如不带"http://" 、"https://"等协议头的资源允许访问；
+
+server_names：指定具体的域名或者IP；
+
+string：可以支持正则表达式和*的字符串。如果是正则表达式，需要以`~`开头表示，例如
+
+```shell
+location ~*\.(png|jpg|gif){
+           valid_referers none blocked www.baidu.com;
+           if ($invalid_referer){
+                return 403;
+           }
+           root /usr/local/nginx/html;
+
+}
+```
+
+>if ($invalid_referer)中if后面必须有个空格，否则报错；
+
+`valid_referers none blocked www.baidu.com;`，此时我们的`tree.png`访问并不能匹配上面这几种情况，就会返回403；
+
+![image-20250731172108992](Nginx.assets/image-20250731172108992.png)
+
+`ngx_http_accesskey_module`
+
+## [Rewrite](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html)
+
+
+
+### set
+
+| Syntax:  | `set $variable value;`     |
+| :------- | -------------------------- |
+| Default: | —                          |
+| Context: | `server`, `location`, `if` |
+
+variable：变量的名称，该变量名称要用"$"作为变量的第一个字符，且不要与Nginx服务器预设的全局变量同名；
+
+value：变量的值，可以是字符串、其他变量或者变量的组合等；
+
+### Rewrite常用全局变量
+
+| 变量               | 说明                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| $args              | 变量中存放了请求URL中的请求参数。比如http://192.168.200.133/server?arg1=value1&args2=value2中的"arg1=value1&arg2=value2"，功能和$query_string一样 |
+| $http_user_agent   | 变量存储的是用户访问服务的代理信息(如果通过浏览器访问，记录的是浏览器的相关版本信息) |
+| $host              | 变量存储的是访问服务器的server_name值                        |
+| $document_uri      | 变量存储的是当前访问地址的URI。比如http://192.168.200.133/server?id=10&name=zhangsan中的"/server"，功能和$uri一样 |
+| $document_root     | 变量存储的是当前请求对应location的root值，如果未设置，默认指向Nginx自带html目录所在位置 |
+| $content_length    | 变量存储的是请求头中的Content-Length的值                     |
+| $content_type      | 变量存储的是请求头中的Content-Type的值                       |
+| $http_cookie       | 变量存储的是客户端的cookie信息，可以通过add_header Set-Cookie 'cookieName=cookieValue'来添加cookie数据 |
+| $limit_rate        | 变量中存储的是Nginx服务器对网络连接速率的限制，也就是Nginx配置中对limit_rate指令设置的值，默认是0，不限制。 |
+| $remote_addr       | 变量中存储的是客户端的IP地址                                 |
+| $remote_port       | 变量中存储了客户端与服务端建立连接的端口号                   |
+| $remote_user       | 变量中存储了客户端的用户名，需要有认证模块才能获取           |
+| $scheme            | 变量中存储了访问协议                                         |
+| $server_addr       | 变量中存储了服务端的地址                                     |
+| $server_name       | 变量中存储了客户端请求到达的服务器的名称                     |
+| $server_port       | 变量中存储了客户端请求到达服务器的端口号                     |
+| $server_protocol   | 变量中存储了客户端请求协议的版本，比如"HTTP/1.1"             |
+| $request_body_file | 变量中存储了发给后端服务器的本地文件资源的名称               |
+| $request_method    | 变量中存储了客户端的请求方式，比如"GET","POST"等             |
+| $request_filename  | 变量中存储了当前请求的资源文件的路径名                       |
+| $request_uri       | 变量中存储了当前请求的URI，并且携带请求参数，比如http://192.168.200.133/server?id=10&name=zhangsan中的"/server?id=10&name=zhangsan" |
+
+上述参数还可以在日志文件中使用，这个就要用到前面我们介绍的`log_format`指令
+
+```shell
+log_format main '$remote_addr - $request - $status-$request_uri  $http_user_agent';
+
+access_log logs/access.log main;
+```
+
+### if
+
+该指令用来支持条件判断，并根据条件判断结果选择不同的Nginx配置；
+
+| Syntax:  | `if (condition) { ... }` |
+| :------- | ------------------------ |
+| Default: | —                        |
+| Context: | `server`, `location`     |
+
+1. 如果变量名对应的值为空字符串或"0"，if都判断为false,其他条件为true；
+
+   ```shell
+   if ($param){
+   }
+   ```
+
+2. 使用"="和"!="比较变量和字符串是否相等，满足条件为true，不满足为false；
+
+   ```shell
+   if ($request_method = POST){return 405;}
+   ```
+
+   > 此处和Java不太一样的地方是字符串不需要添加引号,并且等号和不等号前后到需要加空格；
+
+3. 使用正则表达式对变量进行匹配，匹配成功返回true，否则返回false；变量与正则表达式之间使用`~`，`~*`，`!~`，`!~*`来连接；
+
+   `~`代表匹配正则表达式过程中区分大小写
+
+   `~*`代表匹配正则表达式过程中不区分大小写
+
+   `!~`和`!~*`刚好和上面取相反值，如果匹配上返回false,匹配不上返回true
+
+   ```shell
+   if ($http_user_agent ~ MSIE){
+   	#$http_user_agent的值中是否包含MSIE字符串，如果包含返回true
+   }
+   ```
+
+   >正则表达式字符串一般不需要加引号，但是如果字符串中包含"}"或者是";"等字符时，就需要把引号加上；
+
+4. 判断请求的文件是否存在使用"-f"和"!-f"
+
+   ```shell
+   if (-f $request_filename){
+   	#判断请求的文件是否存在
+   }
+   if (!-f $request_filename){
+   	#判断请求的文件是否不存在
+   }
+   ```
+
+5. 判断请求的目录是否存在使用"-d"和"!-d"
+
+6. 判断请求的目录或者文件是否存在使用"-e"和"!-e"
+
+7. 判断请求的文件是否可执行使用"-x"和"!-x"
+
+### [break](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#break)
+
+| Syntax:  | `break;`                   |
+| :------- | -------------------------- |
+| Default: | —                          |
+| Context: | `server`, `location`, `if` |
+
+### [return](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#return)
+
+### rewrite
