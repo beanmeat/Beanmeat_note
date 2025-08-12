@@ -1221,4 +1221,116 @@ access_log logs/access.log main;
 
 ### [return](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#return)
 
-### rewrite
+### [rewrite](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite)
+
+| Syntax:  | `rewrite regex replacement [flag];` |
+| :------- | ----------------------------------- |
+| Default: | —                                   |
+| Context: | `server`, `location`, `if`          |
+
+`regex`：用来匹配URI的正则表达式；
+
+`replacement`：匹配成功后，用于替换URI中被截取内容的字符串；如果该字符串是以"http://"或者"https://"开头的，则不会继续向下对URI进行其他处理，而是直接返回重写后的URI给客户端；
+
+```shell
+location rewrite {
+	rewrite ^/rewrite/url\w*$ https://www.baidu.com;
+	rewrite ^/rewrite/(test)\w*$ /$1;
+	rewrite ^/rewrite/(demo)\w*$ /$1;
+}
+location /test{
+	default_type text/plain;
+	return 200 test_success;
+}
+location /demo{
+	default_type text/plain;
+	return 200 demo_success;
+}
+```
+
+
+
+#### flag
+
+**last**
+
+```nginx
+location /old {
+    rewrite ^/old /new-url last;  # 重写后，重新匹配所有 location，重写为不同的路径，避免循环
+}
+
+location /new-url {
+    return 200 "Success! No loop!";
+}
+```
+
+**break**
+
+将此处重写的URI作为一个新的URI，在本块中继续进行处理。该标志将重写后的地址在当前的location块中执行，不会将新的URI转向其他的location块；
+
+```nginx
+location rewrite {
+    #/test   /usr/local/nginx/html/test/index.html
+	rewrite ^/rewrite/(test)\w*$ /$1 break;
+	rewrite ^/rewrite/(demo)\w*$ /$1 break;
+}
+location /test{
+	default_type text/plain;
+	return 200 test_success;
+}
+location /demo{
+	default_type text/plain;
+	return 200 demo_success;
+}
+```
+
+`http://106.14.115.129/rewrite/demoabc`，页面报404；
+
+- **访问 `/rewrite/demoabc`**：
+  1. 第一行 `rewrite ^/rewrite/(test)\w*$` **不匹配**（因为 URI 是 `demoabc` 不是 `test`），继续往下执行。
+  2. 第二行 `rewrite ^/rewrite/(demo)\w*$` **匹配成功**，执行 `break`，**停止所有后续处理**（包括 `location` 匹配）。
+  3. **由于 `break` 不重新匹配 `location`**，Nginx 会在当前 `location /rewrite` 查找 `/demo`，但该 `location` 没有定义 `root`、`return` 或 `proxy_pass`，所以返回 **404**。
+
+**redirect**
+
+```nginx
+location rewrite {
+	rewrite ^/rewrite/(test)\w*$ /$1 redirect;
+	rewrite ^/rewrite/(demo)\w*$ /$1 redirect;
+}
+location /test{
+	default_type text/plain;
+	return 200 test_success;
+}
+location /demo{
+	default_type text/plain;
+	return 200 demo_success;
+}
+```
+
+`http://106.14.115.129:8888/rewrite/testabc`请求会被永久重定向，浏览器地址也会发生改变；
+
+**permanent**
+
+将重写后的URI返回给客户端，状态码为301，指明是永久重定向URI,主要用在replacement变量不是以"http://"或者"https://"开头的情况；
+
+```nginx
+location rewrite {
+	rewrite ^/rewrite/(test)\w*$ /$1 permanent;
+	rewrite ^/rewrite/(demo)\w*$ /$1 permanent;
+}
+location /test{
+	default_type text/plain;
+	return 200 test_success;
+}
+location /demo{
+	default_type text/plain;
+	return 200 demo_success;
+}
+```
+
+访问`http://106.14.115.129:8888/rewrite/testabc`请求会被永久重定向，浏览器地址也会发生改变；
+
+>SEO
+
+### [rewrite_log](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite_log)
