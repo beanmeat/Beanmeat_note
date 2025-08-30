@@ -82,6 +82,64 @@
 
 #### 谓语
 
+##### 谓语的成分
+
+谓语一定是系动词或实义动词（词组）作谓语；一个简单句的谓语只能有一个，要么是系动词，要么是实义动词（词组）。
+
+- Dayan must very gorgeous.
+
+  上面一句话少了be动词，因为并不是所有的动词都能充当谓语，must是情态动词，不能单独作谓语。
+
+  
+
+##### 一句话是否出现多个动词或词组
+
+- Doing nothing is my habit. 无所事事是我的习惯。
+- I enjoy playing tennis. 我喜欢打网球。
+- My dream is to pass the postgraduate entrance examination. 我的梦想是通过研究生考试。
+
+这三个句子，能总结以下几点内容：
+
+1. 一个简单句中可以出现多个动词（词组）；
+2. 谓语只能由动词（词组）来充当；
+3. 动词（词组）不可以直接用来作句子的主语、宾语或表语；
+
+鉴于谓语只能由动词（词组）充当，我们也习惯性地将谓语称为“谓语动词”，而当一个简单句中出现多个动词（词组）时，我除掉谓语的动词（词组），其余的动词（词组），我们则处理为“非谓语”来作句子中的其他成分。
+
+**非谓语的形式有三种：**
+
+1. 动词 -ing 形式（doing）包含现在分词和动名词。其中现在分词表示主动或进行（主动居多），动名词起名词作用；
+2. 过去分词（done）表示被动或完成（被动居多）；
+3. 不定时（to do）表示目的或将来（目的居多）；
+
+**① 作主语：**
+
+<u>To finish the work by yourself</u> is very hard. 你独自完成这项工作是很困难的。
+
+**② 做表语：**
+
+Her job is <u>to teach math</u>. 他的工作是教数学。
+
+**③ 做宾语：**
+
+Frank enjoys <u>playing basketball with his friends</u>. 弗兰克很喜欢跟朋友一起打篮球。
+
+**④ 作定语：**
+
+I have a meeting <u>to attend</u>. 我有一个会议要出席。
+
+**⑤ 作状语：**
+
+She sold her hair <u>to buy the watch chain</u>. 她卖掉了自己的头发来买那条表链。
+
+**⑥ 作补语：**
+
+I wish you to be happy. 我希望你幸福。
+
+**⑦ 作同位语：**
+
+My husband's habit, <u>browsing the web before sleeping</u>, remains unchanged. 我丈夫睡前浏览网页的习惯一直没变。
+
 #### 主语
 
 #### 宾语
