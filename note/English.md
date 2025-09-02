@@ -353,3 +353,58 @@ My husband's habit, <u>browsing the web before sleeping</u>, remains unchanged. 
 ### 名词性从句考点分析
 
 #### 写作-主语从句
+
+## 定语和定语从句
+
+### 定语概述
+
+定语就是用来修饰名词或代词的成分，用于描述或限定名词或代词的特征、特性或状态。
+
+### 定语的成分
+
+1. 形容词（短语）作定语
+
+   That <u>kind</u> nightingale lost her life. 那只善良的夜莺失去了它的生命。
+
+   This <u>extraordinary</u> rose turns dark red. 这朵非凡的玫瑰花变成了深红色。
+
+2. 名词（短语）作定语
+
+   <u>The nightingale's</u> singing can make the rose bloom. 夜莺的歌声能使这朵玫瑰花开放。
+
+   The singing of the nightingale can make the rose bloom.
+
+3. 介词短语作定语
+
+   The nightingale <u>out of the window</u> heard the sighs of the young man. 窗外的夜莺听到了年轻人的感叹。
+
+   I only have roses <u>as white as foam</u>. 我只有和泡沫一样白的玫瑰花。
+
+4. 非谓语动词（分词、不定式）作定语
+
+   The <u>singing</u> nightingale died pitifully. 那只唱歌的夜莺死的很可怜。
+
+5. 从句作定语
+
+   The rose <u>which the nightingale exchanged with his life</u> was discarded. 夜莺用生命换来的玫瑰花被扔掉了。
+
+>定语的位置取决于它的长短，当一个单词修饰名词（短语）时通常放在名词（短语）前面，当两个以上的单词修饰名词（短语）时通常放在名词（短语）后面。但是，注意过去分词作定语，即使是一个单词也通常放在名词（短语）后。
+
+### 定语从句
+
+Her favorite celebrity is Kobe who is good at playing basketball. 他最新欢的明星是科比，他擅长打篮球。
+
+#### 定语从句的构成
+
+**先行词 [ 名词（短语）] + 引导词 + 分句**
+
+#### 定语从句的引导词
+
+| 先行词 | 引导词              |
+| ------ | ------------------- |
+| 人     | that,who,whom,whose |
+| 物     | that,which,whose    |
+| 时间   | that,which,when     |
+| 地点   | that,which,where    |
+| 原因   | that,which,why      |
+
