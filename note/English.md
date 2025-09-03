@@ -353,3 +353,41 @@ My husband's habit, <u>browsing the web before sleeping</u>, remains unchanged. 
 ### 名词性从句考点分析
 
 #### 写作-主语从句
+
+## 定语从句
+
+### 定语从句
+
+#### 定语从句的先行词
+
+The word used by the speaker may stir up unfavorable reactions in the listener ___ interfere with his comprehension; hence, the transmission-reception system breaks down.
+
+分析：The word 是主语， used by the speaker 是 The word 的后置定语，主句的谓语是 may stir up，宾语是 reactions，in the listener 是 reactions 的后置定语。这部分的字面意思为：说话人所使用的语言会激起听者不好的反应，横线处到分号前是定语从句。是什么阻碍了听者的理解？显然横线处不填指人的先行词，那是什么呢？顺着引导词往前找，很容易就能找到reactions，是这种不好的反应影响了听者的理解，所以先行词不是listener，而是reactions，填which。
+
+>总结：
+>
+>一般情况下，定语从句紧跟先行词，但有时候，定语从句与先行词之间插入了其他成分，使它和先行词分隔开来。不能只看位置，也要靠句意思。
+
+
+
+When someone abandons you,it's his loss because for him,he loses someone who loves him but for you,you just lose someone who dose not love you. 当有人抛弃你的时候，这是他的损失。因为对他来说，他失去了一个爱他的人，而你只是失去了一个不爱你的人。
+
+>多数情况下，先行词和引导词是连在一起的。很容易发现，如果无法确认先行词的位置，可以读懂句子，借助句意来判断。
+
+
+
+- For workers it can mean an end to the security,benefits and sense of importance that came from being a loyal employee.
+
+  【分析】主谓宾结构，主句谓语是 can mean，宾语是 an end，从 to 到句末全都是定语。在这个长定语中，有三个并列的名词（短语）：he security,benefits and sense of importance，后面 that 引导的定语从句修饰这三个并列的名词（短语）。本剧中的定语从句的先行词不是一个名词（短语），而是前面几个并列的名词（短语）。
+
+  【翻译】对于工人来说，他可能意味着作为一名充实员工所享有的安全感、福利和重要感的结束。
+
+- While that may well be true,researchers have also recently found that interacting with strangers actually brings a boost in mood and feelings of belonging that we didn't expect.
+
+  【分析】主谓宾结构，谓语是have found，that引导的从句作宾语，While that may well be true 是让步状语从句。宾语从句中包含一个that引导的定语从句，它修饰的不只是feelings of belonging，而是前面的两个名词短语：a boost in mood 和 feelings of belonging.
+
+  【翻译】虽然那很可能是真的，但研究人员最近发现与陌生人互动实际上带给我们意想不到的情绪提升和归属干。
+
+#### 定语从句的特殊用法
+
+##### 限制性和非限制性定语从句
