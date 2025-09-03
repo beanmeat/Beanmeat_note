@@ -400,14 +400,21 @@ Her favorite celebrity is Kobe who is good at playing basketball. 他最新欢�
 
 #### 定语从句的引导词
 
-| 先行词 | 引导词              |
-| ------ | ------------------- |
-| 人     | that,who,whom,whose |
-| 物     | that,which,whose    |
-| 时间   | that,which,when     |
-| 地点   | that,which,where    |
-| 原因   | that,which,why      |
+按照先行词种类进行分类
 
+| 先行词 | 引导词                  |
+| ------ | ----------------------- |
+| 人     | ~~that~~,who,whom,whose |
+| 物     | that,which,whose        |
+| 时间   | that,which,when         |
+| 地点   | that,which,where        |
+| 原因   | that,which,why          |
+
+按照引导词分为三类：
+
+1. 代词：（在从句中充当主语或宾语或表语）who,whom,that,which
+2. 副词：（在从句中不能充当主语或宾语或表语）where,why,when
+3. 形容词：（在从句中只能充当定语，修饰名词（短语））whose
 #### 定语从句的先行词
 
 The word used by the speaker may stir up unfavorable reactions in the listener ___ interfere with his comprehension; hence, the transmission-reception system breaks down.
