@@ -448,3 +448,222 @@ When someone abandons you,it's his loss because for him,he loses someone who lov
 #### 定语从句的特殊用法
 
 ##### 限制性和非限制性定语从句
+
+- I love teacher Liu who is beautiful. 我喜欢漂亮的刘老师。
+- I love teacher Liu, who is beautiful. 我喜欢刘老师，她很漂亮。
+
+| 从句及区别点                       | 限制性定语从句                         | 非限制性定语从句                                   |
+| ---------------------------------- | -------------------------------------- | -------------------------------------------------- |
+| 与先行词的关系                     | 关系比较密切，删除后影响句子本身的意思 | 关系没那么密切，相当于插入语，删除后不影响主句意思 |
+| 标点符号                           | 不用逗号                               | 用逗号                                             |
+| 引导词                             | 可以用that                             | 不可以用that                                       |
+| 当引导词which/whom在从句中作宾语时 | 可省略                                 | 不可省略                                           |
+| 能否指代前面的句子                 | 不可以指代                             | 可以指代                                           |
+| 翻译时的区别                       | 常翻译到名词前，作定语                 | 分开翻译，作独立的句子                             |
+
+- Forrest Gump,whom I have learned a lot from,is a brave man. 阿甘是一个勇敢的人，我从他身上学到了很多。
+
+  Forrest Gump I have learned a lot from,is a brave man.
+
+- He said he had finished all his homework,which doubted very much.
+
+##### that省略情况
+
+在定语从句中，如果引导词that充当的是宾语则可以被省略。
+
+- I enjoy the movie (that) we saw yesterday.
+
+【解析】主干 I enjoy the movie. 先行词是the movie，从句是we saw yesterday，缺少宾语，因此引导词可选that或which，而that充当宾语可以省略，名词movie后为省略了that的定语从句。
+
+- Only recently have they come to see the vital part forests will have to play in storing carbon.
+
+【解析】 主干是 Only recently have they come to see the cital part，是倒装句。forests will have to play in storing carbon 是省略引导词that的定语从句，修饰the part。
+
+
+
+##### as和which引导的非限制性定语从句
+
+as引导非限制性定语从句，位置比较灵活，可以放在主句的前面、主谓之间或主句的后面，此处的as翻译为“正如”。
+
+which引导的定语从句只能放在所修饰的词或句子的后面。
+
+- As is known to us all,without efforts nothing can be achieved.
+- Without efforts nothing can be achieved,which is known to us all.
+
+
+
+紧跟在引导词as后的动词是be动词，而引导词which后面可以是任何类型的动词。
+
+- As is known to all,China is a space-loving country.
+- Tiechui was late,which made Ms.Liu very angry.
+
+
+
+固定搭配the same...as 和 the same...that引导的定语从句
+
+- This is the same book as I lost yesterday. 像
+- This is the same book that I lost yesterday. 是
+
+
+
+先行词是人时，that和who的区别
+
+定语从句中引导词which和that的区别
+
+介词 + 关系代词 引导的定语从句
+
+- I love my phone,without which my life would be meaningless.
+- He work in a library,in front of which lies a river.
+
+##### 定语从句和同位语从句的区别
+
+- I had a dream that was definitely sweet.
+
+  I had a dream that I would become a rich lady someday.
+
+首先确定，第一个句子中that引导的从句是定语从句，第二个句子中that引导的从句是同位语从句。
+
+1. 定语从句是对先行词的修饰，而同位语从句是对先行词的解释。
+2. 定语从句的引导词that在从句中要么充当主语，要么充当宾语。而同位语从句的that在从句中不充当任何成分，也没有任何意思。
+3. 定语从句的先行词可以是任何名词，而同位语从句的先行词只能是抽象名词。
+4. 最后一个区别，虽然不够严谨，但也可以作为参考。就是定语从句的引导词由很多，而同位语从句的引导词通常是that。
+
+### 定语和定语从句的考点分析
+
+## 状语
+
+### 什么是状语
+
+- 素颜句子：大雁是女人。
+
+  定语化妆：大雁是一个妖娆的女人。
+
+  状语化妆：大雁是一个非常妖娆的女人。
+
+- 素颜句子：铁锤在工作。
+
+  定语化妆：勤奋的铁锤在工作。
+
+  状语化妆：勤奋的铁锤在没日没夜地工作。
+
+- 素颜句子：铁锤向大雁表白了。
+
+  定语化妆：憨憨的铁锤向美丽的大雁表白了。
+
+  状语化妆：在一个月黑风高的夜晚，憨憨的铁锤向大雁表白了。
+
+### 状语的成分
+
+1. 副词做状语
+
+   He smiles <u>sweetly</u>.
+
+   He looks <u>pretty sweet</u>.
+
+2. 介词短语做状语-表示时间
+
+   My daughter is eager to get her lucky money <u>on New Year's Eve</u>.
+
+   介词短语做状语-表示地点
+
+   My son and I live <u>in Chongqing</u>.
+
+   介词短语做状语-表示原因
+
+   **because of,due to,owing to,on account of,thank to,as a result of...**
+
+   The sports meeting was cancelled <u>because of the heavy rain</u>.
+
+   介词短语做状语-表示方式
+
+   **通过：through,via,by**
+
+   **以...方式：in...manner,in ... way,in ... method**
+
+   It's more economical to go to Beijing <u>by train</u>.
+
+   介词短语做状语-表示让步
+
+   **虽然、尽管：in spite of,despite,for all**
+
+   **无论：regardless of...**
+
+   They come to school <u>despite the heavy rain</u>.
+
+   介词短语做状语-表示伴随（伴随状语指的是状语的动作伴随主句发生）
+
+   He stood there,<u>with his hand raised</u>.
+
+   He lay on his bed <u>with the sunlight falling on his face</u>.
+
+3. 非谓语动词（分词和不定式）作状语
+
+   **分词短语，主句。句首的分词短语一般表示原因。**
+
+   <u>Having worked in this school for many years</u>,he knows it very well.
+
+   **主句，分词短语。句末的分词短语一般表结果。**
+
+   He studied hard,<u>thus getting high marks</u>.
+
+4. 从句做状语
+
+   The tacher raised his voice <u>so that the students in the back could hear more clearly</u>.
+
+   You will certainly succeed <u>as long as you keep on trying</u>.
+
+>状语的位置极其灵活，可以随意防止在句中，但是放在句首或句末的情况居多。如果放在句首的话，后面通常用逗号隔开
+>
+><u>Last night</u>,my friend and I went to see a movie.
+>
+>My friend and I went to see a movie <u>last night.</u>
+>
+>My friend and I,<u>last night</u>,went to see a movie.
+
+### 状语从句
+
+When I was young,I'd listen to the radio 当我年轻时，常听收音机
+
+#### 状语从句的构成
+
+1. 引导词（连词）+ 句子 + “,” + 主句
+2. 主句 + 引导词（连词）+  句子
+
+两个句式可以相互转换。When I was young,I'd listen to the radio. 也可以写成 I'd listen to the radio when I was young.
+
+#### 状语从句的引导词
+
+状语从句的引导词是按照引导词本身的意思分的类，一共把引导词分成9类。
+
+时间、地点、原因、目的、结果、条件、让步、方式、比较。
+
+#### 状语从句的时态
+
+1. 当主句谓语为将来时，从句谓语使用一般现在时，用“现在”表示“将来”。**主句从句都没发生（主将从现）**
+
+   When love comes,I will hold his hands. 当爱来临的时候，我要牵住他的手。
+
+   I will invite you to dinner if I manage to pass the postgraduate entrance examination. 如果考研成功，我就请你吃饭。
+
+2. 当主句谓语为过去式时，从句谓语使用相应的过去时态。
+
+   When love came, I failed to hold his hands. 当爱来临的时候，我没有牵到她的手。
+
+#### 细说状语从句
+
+##### 时间状语从句
+
+常见引导词（连词）：
+
+when, as ( 一边...一边 / 随着)
+while (在...期间)，once（一旦）
+as soon as (一...就)
+...
+
+
+
+区别when，while和as
+
+when + 任何时态
+
+while + 进行时
