@@ -296,3 +296,159 @@ server.listen(80,() => {
 1. 提高代码复用性
 2. 提到代码可维护性
 3. 可以实现按需加载
+
+### 模块作用域
+
+和函数作用域一样，在自定义模块中定义的变量、方法等成员，只能在当前模块内被访问，这种模块级别的访问限制，叫做模块作用域。防止全局变量污染问题。
+
+![image-20250915230136771](images/Node.js.assets/image-20250915230136771.png)
+
+那如果需要向外共享模块作用域中的成员，可以使用`module`对象，在每个`.js`自定义模块中都有一个`module`对象，它里面存储了和当前模块有关的信息，打印如下：
+
+![image-20250915230532916](images/Node.js.assets/image-20250915230532916.png)
+
+### module.exports
+
+在自定义模块中，可以使用module.export对象，将模块内的成员共享出去，供外界使用。外界用`require()`方法导入自定义模块时，得到的就是`module.exports`所指向的对象。
+
+```js
+// temp.js
+// 向module.exports对象上挂在username和sayHello方法
+module.exports.username = 'beanmeat';
+module.exports.sayHello = function hello() {
+    console.log('hello world')
+}
+
+```
+
+```js
+// module.js
+const custom = require('./temp')
+
+// 每个自定义模块中都有一个module对象
+console.log(custom) //{ username: 'beanmeat', sayHello: [Function: hello] }
+```
+
+### exports
+
+Node提供了`exports`对象来简化向外共享成员的代码，默认情况下，`exports`和`module.exports`指向同一个对象。最终共享的结果，还是以`module.exports`为准。
+
+```js
+console.log(exports == module.exports) // true
+```
+
+>require()模块的时候，得到的永远都是`module.exports`指向的对象。
+>
+>不要在同一个模块中同时使用`exports`和`module.exports`
+
+```js
+exports.username = 'beanmeat';
+module.exports = {
+    gender: '男',
+    age: '20',
+}
+console.log(module.exports) // { gender: '男', age: '20' }
+```
+
+```js
+exports.username = 'beanmeat';
+module.exports.gender = 'man';
+console.log(module.exports) // { username: 'beanmeat', gender: 'man' }
+```
+
+```js
+module.exports.username = 'beanmeat';
+exports = {
+    gender: '男',
+    age: 22
+}
+
+console.log(module.exports) // {'username': 'beanmeat'}
+```
+
+### CommonJS规范
+
+`module.exports`、`exports`以及`require`这些都是`CommonJS`模块化规范的内容。而Node.js是实现了CommonJS模块化规范，二者的关系有点像JavaScript与ECMAScript。
+
+## Package包管理工具
+
+【包】`package`，代表了一组特定功能的源码集合
+
+包管理工具是管理【包】的应用软件，可以对包进行下载安装、更新、删除、上传等操作。借助包管理工具，可以快速开发项目，提升开发效率。
+
+包管理工具是一个通用的概念，很多编程语言都有包管理工具。下面是前端常用的包管理工具：
+
+- `npm`
+- yarn
+- cnpm
+
+### npm
+
+npm全程`Node Package Manager`，Node的包管理工具，是node.js官方内置的包管理工具。
+
+node.js在安装时会`自动安装 npm`，所以如果安装了node.js，可以直接使用npm，可以通过`npm -v`查看版本号测试，如果显示版本号则说明安装成，反之安装失败。
+
+![image-20250915233636802](images/Node.js.assets/image-20250915233636802.png)
+
+#### init
+
+创建一个空目录，然后以此目录为工作目录`启动命令行`工具，执行`npm init`
+
+![image-20250915234018330](images/Node.js.assets/image-20250915234018330.png)
+
+`npm init`命令的作用是将文件夹初始化为一个包，`交互式创建 package.json文件`
+
+![image-20250915234326911](images/Node.js.assets/image-20250915234326911.png)
+
+`package.json`是包的配置文件，每个包必须要有`package.json`
+
+`package.json`内容示例：
+
+```json
+{
+  "name": "beanmeat_test",
+  "version": "1.0.0",
+  "description": "npm_start",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "beanmeat",
+  "license": "ISC"
+}
+
+```
+
+>初始化的过程中注意事项：
+>
+>1. package name（包名）不能使用中文、大写、默认值是`文件夹名称`，所以文件名称也不能使用中文和大写。
+>2. version（`版本号`）要求`x.x.x`的形式定义，`x`必须是数字，默认是`1.0.0`
+>3. ISC证书与MIT证书功能上一个相同的，关于开源证书扩展阅读http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html
+>4. `package.json`可以手动创建与修改
+>5. 使用`npm init -y` 或者 `npm init --yes`极速创建`package.json`
+
+#### 搜索包
+
+搜索包的方式有两中国
+
+1. 命令行 `npm s/search 关键字`
+2. 网站搜索，https://www.npmjs.com
+
+#### 下载安装包
+
+可以通过`npm install` 和 `npm i` 命令安装包
+
+```shell
+# 格式
+npm install <包名>
+npm i <包名>
+
+# 示例
+npm install uniq
+npm i uniq
+```
+
+运行之后文件夹会增加两个资源
+
+- `node_modules`存放下载的包
+- `package-lock.json`用来锁定包的版本，确保这次安装和将来安装所安装的版本是一致的
