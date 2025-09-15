@@ -10,7 +10,7 @@ https://nodejs.org/zh-cn
 
 fs模块是官方提供的、用来操作文件的模块，提供了一系列的方法和属性。
 
-![image-20250914115022978](E:\Beanmeat_project\Beanmeat_note\Node.js.assets\image-20250914115022978.png)
+![image-20250914115022978](images\Node.js.assets\image-20250914115022978.png)
 
 ### [fs.readFile(path[, options], callback)](https://nodejs.org/docs/latest-v23.x/api/fs.html#fspromisesreadfilepath-options)
 
@@ -104,7 +104,7 @@ readFile(__dirname + '/../temp.txt', (err, data) => {
 })
 ```
 
-![image-20250914124612840](E:\Beanmeat_project\Beanmeat_note\Node.js.assets\image-20250914124612840.png)
+![image-20250914124612840](images\Node.js.assets\image-20250914124612840.png)
 
 `node:path` 模块提供了用于处理文件和目录的路径的实用工具。可以使用以下方式访问它：
 
