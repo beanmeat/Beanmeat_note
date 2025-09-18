@@ -9,6 +9,10 @@
   "author": "beanmeat",
   "license": "ISC",
   "dependencies": {
+    "jquery": "^3.7.1",
     "uniq": "^1.0.1"
+  },
+  "devDependencies": {
+    "less": "^4.4.1"
   }
 }

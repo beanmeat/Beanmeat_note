@@ -434,7 +434,7 @@ node.js在安装时会`自动安装 npm`，所以如果安装了node.js，可以
 1. 命令行 `npm s/search 关键字`
 2. 网站搜索，https://www.npmjs.com
 
-#### 下载安装包
+#### 下载依赖
 
 可以通过`npm install` 和 `npm i` 命令安装包
 
@@ -452,3 +452,139 @@ npm i uniq
 
 - `node_modules`存放下载的包
 - `package-lock.json`用来锁定包的版本，确保这次安装和将来安装所安装的版本是一致的
+
+##### 全局安装
+
+可以执行安装选项`-g`进行全局安装
+
+```shell
+npm i -g nodemon
+```
+
+全局安装完成之后就可以在命令行的任何位置运行`nodemon`命令，该命令的作用是`自动重启 node 应用程序`，当你代码更改的时候，会自动重新编译。
+
+>说明：
+>
+>1. 全局安装的命令不受工作目录位置的影响
+>2. 可以通过`npm root -g`可以查看全局安装包的位置
+>3. `不是所有的包都适合全局安装`，只有全局类的工具才适合，可以`查看包的官方文档来确定安装方式`。
+
+##### 安装所有依赖
+
+在项目写作中有一个常用的命令就是`npm i`，通过该命令可以依据`package.json`和`package-lock.json`的依赖生命安装项目依赖。
+
+```shell
+npm i
+npm install
+```
+
+>node_modules文件夹大多数情况都不会存入版本库
+
+##### 安装指定版本的包
+
+项目中可能会遇到版本不匹配的情况，有时就需要安装指定版本的包，可以使用下面的命令的。
+
+```shell
+## 格式
+npm i <包名@版本号>
+
+## 示例
+npm i jquery@1.11.2
+```
+
+#### 删除依赖
+
+项目中可能需要删除某些不需要的包，可以使用下面的命令
+
+```shell
+## 局部删除
+npm remove uuiq
+npm r uniq
+
+## 全局删除
+npm remove -g nodemon
+```
+
+#### require导入npm包基本流程
+
+1. 在当前文件夹下`node_modules`中寻找同名的文件夹，直至找到磁盘根目录
+2. 在上级目录中下的`node_modules`中寻找同名的文件夹，直至找到磁盘跟目录
+
+```js
+const uniq = require('uniq')
+```
+
+```js
+const uniq = require('./node_modules/uniq')
+// 读取目录相当于读取这个目录下的package.json中的main里面的文件，即uniq.js
+```
+
+![image-20250916162420507](.\images\Node.js.assets\image-20250916162420507.png)
+
+```js
+const uniq = require('./node_modules/uniq/uniq.js')
+```
+
+#### dev/prod
+
+测试环境是程序员`专门用来写代码`的环境，一般指程序员的电脑，开发环境的项目一般`只能是开发自己访问`
+
+生产环境是项目`代码正式运行`的环境，一般指正式的服务器电脑，生产环境的项目一般每个客户都可以访问。
+
+#### devDependencies/dependencies
+
+我们可以在安装时设置选项来区分是开发依赖，还是生产依赖，目前分为两类：
+
+| 类型     | 命令                                     | 补充                                                         |
+| -------- | ---------------------------------------- | ------------------------------------------------------------ |
+| 生产依赖 | npm i -S uniq<br />npm i --save uniq     | -S等效于--save，`-S 是默认选项`<br />包信息保存在package.json中`dependencies`属性 |
+| 开发依赖 | npm i -D less<br />npm i --save-dev less | -D等效于--save-dev<br />包信息保存在package.json中`devDependencies`属性 |
+
+```js
+npm i -S jquery
+npm i -D less
+```
+
+![image-20250916163509164](images/Node.js.assets/image-20250916163509164.png)
+
+安装成功后，package.json效果如下：
+
+![image-20250916163614991](images/Node.js.assets/image-20250916163614991.png)
+
+#### npm配置命令别名
+
+通过配置命令别名可以更简单的执行命令
+
+配置`package.json`中的`scripts`属性
+
+```json
+{
+ ..
+ ..
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve"
+  }
+ ..
+ ..
+}
+```
+
+配置完成之后，可以使用别名执行命令
+
+```shell
+npm run serve
+npm run start
+```
+
+不过`start`别名比较特别，使用时可以省略`run`
+
+```shell
+npm start
+```
+
+>补充说明：
+>
+>1. `npm start`是项目中常用的一个命令，一般用来启动项目
+>2. `npm run` 是自动向上级目录查找的特性，跟`require` 函数也一样
+>3. 对于陌生的项目，我们可以通过查看`scripts`属性来参考项目的一些操作
