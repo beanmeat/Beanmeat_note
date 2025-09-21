@@ -1,0 +1,7 @@
+.hello {
+    color: red;
+}
+
+.block-bg {
+    background-image: url('./assets/webpack.svg') !important;
+}

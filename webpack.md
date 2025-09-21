@@ -1361,3 +1361,226 @@ module.exports = {
 从编译完的结果可以看出， async/await 的ES6语法被 babel 编译了
 
 ## 代码分离
+
+代码分离是 webpack 中最重要特性之一。此特性能够把代码分离到不同的bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
+
+常用的代码分离方法有三种：
+
+- 入口起点：使用`entry`配置手动地分离代码
+- 防止重复：使用`Entry dependencies`或者`SplitChunksPlugin`去重和分离chunk
+- 动态导入：通过模块地内联函数调用来分离代码。
+
+### 入口起点
+
+这是最简单直观的分离代码的方式。不过，这种方式手动配置较多，并有一些隐患，我们将会解决这些问题。先来看看如何从 main bundle 中分离 another module（另一个模块）
+
+在`src`目录下创建`another-module.js`文件：
+
+```js
+import _ from 'lodash'
+console.log(_.join(['Another', 'module', 'loaded!'], ' '))
+```
+
+这个模块依赖了 lodash ，需要安装一下
+
+```shell
+npm install lodash --save-dev
+```
+
+修改配置文件：
+
+```js
+module.exports = {
+    entry: {
+        index: './src/index.js',
+        another: './src/another-module.js',
+    },
+
+    output: {
+        filename: '[name].bundle.js'
+    },
+    // ...
+}
+```
+
+执行编译查看各包大小：
+
+![image-20250921194232806](images/webpack.assets/image-20250921194232806.png)
+
+`another.bundle.js (1.77 MiB)`，发现`lodash.js`也被打包到`another.bundle.js`中。
+
+如果index.js也需要`lodash.js`，那么两个文件都会有`lodash.js`，两个文件都会增大。
+
+![image-20250921195053373](images/webpack.assets/image-20250921195053373.png)
+
+- 如果入口chunk之间包含一些重复的模块，那么重复模块都会被引入到各个bundle中。
+- 这种方法不够灵活，并且不能动态地将核心应用程序逻辑中的代码拆分出来。
+
+第一点因为之前`./src/index.js`中也引入过`lodash`，这样就在两个bundle中造成重复引用。
+
+
+
+### 防止重复
+
+#### 入口依赖
+
+配置`dependOn option`选项，这样可以多个chunk之间共享模块
+
+```js
+module.exports = {
+    entry: {
+        index: {
+            import: './src/index.js',
+            dependOn: 'shared'
+        },
+        another: {
+            import: './src/another-module.js',
+            dependOn: 'shared'
+        },
+        shared: 'lodash',
+    },
+	// ...
+}
+```
+
+执行编译，查看三个文件的大小：
+
+![image-20250921201000649](images/webpack.assets/image-20250921201000649.png)
+
+`index.bundle.js`与`another.bundle.js`共享的模块`lodash.js`被打包到一个单独的文件`shared.bundle.js`中。
+
+#### SplitChunksPlugin
+
+`SplitChunksPlugin`插件可以将公共的依赖模块提取到已有的入口chunk中，或者提取到一个新生成的chunk。使用这个插件，将之前的示例中重复的`lodsh`模块去除。
+
+```js
+module.exports = {
+    entry: {
+        index: './src/index.js',
+        another: './src/another-module.js'
+    },
+   	// ...
+    // 优化配置
+    optimization: {
+        // ...
+        splitChunks: {
+            chunks: 'all',
+        }
+    },
+	// ...
+}
+```
+
+执行编译，同样可以分隔开
+
+![image-20250921205056989](images/webpack.assets/image-20250921205056989.png)
+
+### 动态导入
+
+当涉及到动态代码拆分时，webpack 提供了两个类似的技术。第一种，也是推荐选择的方式是，使用符合 `ECMAScript` 提案 的 `import()` 语法 来实现动态导入。第二种，则是 `webpack` 的遗留功能，使用 `webpack` 特定的 `require.ensure` 
+
+创建`async-module.js`文件：
+
+```js
+function getComponent() {
+    return import('lodash')
+        .then(({
+                   default: _
+               }) => {
+            const element = document.createElement('div')
+            element.innerHTML = _.join(['Hello', 'webpack'], ' ')
+            return element
+        })
+        .catch((error) => 'An error occurred while loading the component')
+}
+
+getComponent().then((component) => {
+    document.body.appendChild(component)
+})
+```
+
+
+
+### 懒加载
+
+懒加载或者按需加载，是一种很好的优化网页或应用的方式。这种方式实际上是先把你的代码在一些逻辑断点处分离开，然后在一些代码块中完成某些操作后，立即引用或即将引用另外一些新的代码块。这样加快了应用的初始加载速度，减轻了它的总体体积，因为某些代码块可能永远不会被加载。
+
+创建一个`math.js`文件，在主页面中通过点击按钮调用其中的函数：
+
+>/src/math.js
+>
+>```js
+>export const add = () => {
+>    return x + y
+>}
+>export const minus = () => {
+>    return x - y
+>}
+>```
+
+编辑`index.js`文件：
+
+```js
+const button = document.createElement('button')
+button.textContent = '点击执行加法运算'
+button.addEventListener('click', () => {
+    import(/* webpackChunkName: 'math' */ './math').then(({ add
+                                                             }) => {
+        console.log(add(4, 5))
+    })
+})
+document.body.appendChild(button)
+```
+
+这里有句注释，我们把它称之为魔法注释：`webpackChunkName：'math'`，告诉webpack打包生成的文件名为`math`
+
+启动服务，在浏览器上查看：
+
+![image-20250921211237799](images/webpack.assets/image-20250921211237799.png)
+
+第一次加载完页面，`math.bundle.js`不会加载，当点击按钮之后，才加载`math.bundle.js`文件。
+
+### 预获取/预加载模块
+
+webpack v4.6+ 增加了对预获取和预加载的支持。
+
+在声明import时，使用下面这些内置指令，可以让webpack输出 “resource hint（资源提示）”，来告知浏览器：
+
+- prefetch（预获取）：将来某些导航下可能需要的资源
+- preload（预加载）：当前导航下可能需要资源
+
+下面这个prefetch的简单实例中，编辑`index.js`文件
+
+```js
+const button = document.createElement('button')
+button.textContent = '点击执行加法运算'
+button.addEventListener('click', () => {
+    import(/* webpackChunkName: 'math',webpackPrefetch: true */ './math').then(({ add }) => {
+        console.log(add(4, 5))
+    })
+})
+document.body.appendChild(button)
+```
+
+添加第二局魔法注释：`webpackPrefetch: true`
+
+告诉 webpack 执行预获取，这会生成`<link rel="prefetch" href="main.js">`并追加到页面头部，指示这浏览器在闲置时间预取`math.js`文件。
+
+启动程序，效果如下：
+
+![image-20250921214303550](images/webpack.assets/image-20250921214303550.png)
+
+还没开始点击按钮时候，`math.bundle.js`就已经下载下来了，同时在`app.html`里面webpack自动添加了一句：
+
+![image-20250921214431379](images/webpack.assets/image-20250921214431379.png)
+
+点击按钮会立即调用已经下载好的`math.bundle.js`文件中的`add`方法。
+
+与 prefetch指令相比，preload指令有许多不同之处：
+
+- preload chunk会在父chunk加载时，以并行的方式开始加载。prefetch chunk会在父chunk加载结束后开始加载
+- preload chunk具有中等优先级，并立即下载。prefetch chunk在浏览器闲置时下载。
+- preload chunk会在父chunk中立即请求，用于当下时刻。prefetch chunk会用于未来的某个时刻。
+- 浏览器支持程度不同。
+
+## 缓存
