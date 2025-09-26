@@ -11,13 +11,13 @@ public class BIOServer {
     public static void main(String[] args) throws Exception {
         ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
 
-        // 创建ServerSocket
+        // ServerSocket
         ServerSocket serverSocket = new ServerSocket(6666);
 
         System.out.println("server init..");
 
         while (true) {
-            Socket accept = serverSocket.accept();
+            Socket accept = serverSocket.accept();  // blocking
             System.out.println("connection a client");
 
             // 创建线程与之通信
@@ -37,7 +37,7 @@ public class BIOServer {
             // 循环读取客户端发送的数据
             while(true) {
                 System.out.println("Thread info: " + Thread.currentThread().getId() + "\t" + Thread.currentThread().getName());
-                int read = inputStream.read(bytes);
+                int read = inputStream.read(bytes); // blocking
                 if(read != -1) {
                     System.out.println(new String(bytes, 0, read));
                 } else {
