@@ -8,7 +8,7 @@ Blocking IO也称BIO，即同步阻塞IO。Java的io包基于流模型实现，�
 
 **Non Blocking IO**
 
-Non Blocking IO也称NIO，即同步非阻塞IO。Java1.4中引入NIO框架，在java.nio包中提供了`Channel`、`Selector`·、`Buffer`等抽象类，可以快速构建多路复用的IO程序，用于提供更接近操作系统底层的高新能数据操作方式。
+Non Blocking IO也称NIO，即同步非阻塞IO。Java1.4中引入NIO框架，在java.nio包中提供了`Channel`、`Selector`、`Buffer`等抽象类，可以快速构建多路复用的IO程序，用于提供更接近操作系统底层的高新能数据操作方式。
 
 **Asynchronous IO**
 
